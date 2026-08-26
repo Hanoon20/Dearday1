@@ -174,53 +174,63 @@
   .hero p.sub{font-size:17.5px; line-height:1.65; color:var(--ink-60); max-width:480px; margin-bottom:34px;}
   .hero-ctas{display:flex; flex-wrap:wrap; gap:14px;}
 
-  .hero-visual{position:relative; height:560px; display:flex; align-items:center; justify-content:center;}
-  @media (max-width:1023px){.hero-visual{height:460px;}}
+  .hero-visual{position:relative; height:520px; display:flex; align-items:center; justify-content:center; overflow:visible; max-width:100%;}
+  @media (max-width:1023px){.hero-visual{height:420px;}}
+  @media (max-width:480px){.hero-visual{height:380px;}}
 
-  .device{position:absolute; border-radius:26px; overflow:hidden;}
-  .device-desktop{
-    width:78%; max-width:420px; aspect-ratio:16/10; left:2%; top:8%;
-    transform:rotate(-6deg);
-    box-shadow:0 40px 80px -30px rgba(0,0,0,0.7);
-    animation:float-a 7s ease-in-out infinite;
+  /* ---- Opened invitation cover, floating ---- */
+  .invite-card{
+    position:relative; width:min(340px, 78vw); aspect-ratio:3/4; border-radius:22px;
+    display:flex; z-index:4;
+    box-shadow:0 50px 90px -30px rgba(0,0,0,0.75);
+    animation:invite-float 6.5s ease-in-out infinite;
   }
-  .device-tablet{
-    width:44%; max-width:230px; aspect-ratio:3/4; right:0; top:2%;
-    transform:rotate(5deg);
-    box-shadow:0 40px 70px -25px rgba(0,0,0,0.65);
-    animation:float-b 8s ease-in-out infinite;
-  }
-  .device-phone{
-    width:40%; max-width:210px; aspect-ratio:9/18.5; left:50%; bottom:0; transform:translateX(-50%) rotate(-2deg);
-    box-shadow:0 45px 90px -25px rgba(0,0,0,0.75);
-    z-index:5; animation:float-c 6s ease-in-out infinite;
-  }
-  @keyframes float-a{0%,100%{transform:rotate(-6deg) translateY(0);}50%{transform:rotate(-6deg) translateY(-14px);}}
-  @keyframes float-b{0%,100%{transform:rotate(5deg) translateY(0);}50%{transform:rotate(5deg) translateY(12px);}}
-  @keyframes float-c{0%,100%{transform:translateX(-50%) rotate(-2deg) translateY(0);}50%{transform:translateX(-50%) rotate(-2deg) translateY(-10px);}}
+  @keyframes invite-float{0%,100%{transform:translateY(0) rotate(-1.2deg);}50%{transform:translateY(-16px) rotate(1deg);}}
 
-  .mock-face{
-    width:100%; height:100%; background:linear-gradient(160deg,#1b1b1f,#0d0d10);
-    border:1px solid rgba(255,255,255,0.12);
+  .invite-cover{
+    width:100%; height:100%; border-radius:22px; overflow:hidden; position:relative;
+    background:
+      radial-gradient(120% 90% at 15% 0%, rgba(201,168,118,0.28), transparent 55%),
+      radial-gradient(100% 80% at 90% 100%, rgba(159,209,214,0.16), transparent 55%),
+      linear-gradient(165deg,#1c1c20,#0c0c0f 70%);
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:14px; position:relative;
+    padding:32px 26px; text-align:center;
   }
-  .mock-seal{
-    width:34px; height:34px; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold) 60%, #8a6d3f 100%);
-    box-shadow:0 4px 12px rgba(201,168,118,0.5); margin-bottom:10px;
+  .invite-cover::before{
+    content:''; position:absolute; inset:14px; border:1px solid rgba(201,168,118,0.45); border-radius:14px; pointer-events:none;
   }
-  .mock-face .mline{height:1px; background:rgba(255,255,255,0.18); margin:6px 0;}
-  .mock-title{font-family:'Playfair Display',serif; font-style:italic; font-size:15px; color:var(--gold-soft); margin-bottom:4px;}
-  .mock-sub{font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-40);}
+  .invite-seal{
+    width:52px; height:52px; border-radius:50%; margin-bottom:20px;
+    background:radial-gradient(circle at 32% 28%, var(--gold-soft), var(--gold) 55%, #8a6d3f 100%);
+    box-shadow:0 8px 20px rgba(201,168,118,0.5), inset 0 0 0 2px rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-style:italic; font-size:16px; color:#fff;
+  }
+  .invite-cover .invite-title{font-family:'Playfair Display',serif; font-style:italic; font-size:26px; color:var(--gold-soft); margin-bottom:8px; line-height:1.25;}
+  .invite-cover .invite-sub{font-size:10.5px; letter-spacing:0.24em; text-transform:uppercase; color:var(--ink-40); margin-bottom:22px;}
+  .invite-cover .invite-line{width:38px; height:1px; background:rgba(201,168,118,0.6); margin-bottom:22px;}
+  .invite-cover .invite-date{font-size:12px; letter-spacing:0.12em; color:var(--ink-60);}
+
+  .invite-shadow-card{
+    position:absolute; width:88%; height:92%; border-radius:20px; top:6%; left:6%; z-index:1;
+    background:linear-gradient(160deg,#141417,#0a0a0c);
+    border:1px solid rgba(255,255,255,0.08);
+    transform:rotate(-7deg);
+  }
+  .invite-shadow-card.two{transform:rotate(6deg); left:auto; right:6%; opacity:0.7;}
 
   .float-chip{
     position:absolute; padding:10px 16px; border-radius:999px; font-size:12.5px; font-weight:600;
-    display:flex; align-items:center; gap:8px; z-index:6;
+    display:flex; align-items:center; gap:8px; z-index:6; max-width:calc(50% - 8px);
     animation:chip-float 5s ease-in-out infinite;
   }
-  .float-chip .dot{width:6px; height:6px; border-radius:50%; background:var(--cyan);}
+  .float-chip .dot{width:6px; height:6px; border-radius:50%; background:var(--cyan); flex-shrink:0;}
   @keyframes chip-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+  @media (max-width:480px){
+    .float-chip{font-size:10.5px; padding:7px 11px;}
+    .float-chip[style*="left:-2%"]{left:0 !important;}
+    .float-chip[style*="left:-4%"]{left:0 !important;}
+    .float-chip[style*="right:-4%"]{right:0 !important;}
+  }
 
   /* ---------- Trust strip ---------- */
   .trust-strip{
@@ -271,7 +281,8 @@
     position:absolute; top:-13px; right:32px; background:linear-gradient(135deg,var(--gold-soft),var(--gold));
     color:var(--charcoal); font-size:11px; font-weight:700; padding:6px 14px; border-radius:999px; letter-spacing:0.04em;
   }
-  .pkg-name{font-family:'Playfair Display',serif; font-style:italic; font-size:26px; margin:0 0 8px;}
+  .pkg-name{font-family:'Playfair Display',serif; font-style:italic; font-size:26px; margin:0 0 6px;}
+  .pkg-price{font-size:22px; font-weight:800; color:var(--gold-soft); margin:0 0 12px; letter-spacing:-0.01em;}
   .pkg-desc{font-size:14px; color:var(--ink-60); margin:0 0 26px; line-height:1.55; min-height:44px;}
   .pkg-list{list-style:none; padding:0; margin:0 0 32px; display:flex; flex-direction:column; gap:13px; flex:1;}
   .pkg-list li{font-size:14px; display:flex; align-items:flex-start; gap:10px; color:var(--off-white);}
@@ -297,7 +308,21 @@
     aspect-ratio:4/5; position:relative; overflow:hidden;
     display:flex; align-items:center; justify-content:center; padding:26px;
   }
-  .p-preview .mock-face{border-radius:14px;}
+  .mock-face{
+    width:100%; height:100%; border-radius:14px;
+    background:linear-gradient(160deg,#1b1b1f,#0d0d10);
+    border:1px solid rgba(255,255,255,0.12);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:14px; position:relative; text-align:center;
+  }
+  .mock-seal{
+    width:32px; height:32px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold) 60%, #8a6d3f 100%);
+    box-shadow:0 4px 12px rgba(201,168,118,0.5); margin-bottom:10px;
+  }
+  .mock-face .mline{height:1px; width:55%; background:rgba(255,255,255,0.18); margin:6px 0;}
+  .mock-title{font-family:'Playfair Display',serif; font-style:italic; font-size:15px; color:var(--gold-soft); margin-bottom:4px;}
+  .mock-sub{font-size:9px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-40);}
   .p-body{padding:20px 22px 24px;}
   .p-tag{font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px; display:block;}
   .p-title{font-size:17px; font-weight:700; margin:0 0 6px;}
@@ -332,7 +357,8 @@
   .feat-chip span{font-size:13px; font-weight:600;}
 
   /* ---------- Testimonials ---------- */
-  .testi-row{display:flex; gap:22px; overflow-x:auto; padding:6px 6px 16px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;}
+  .testi-row{display:flex; gap:22px; overflow-x:auto; padding:6px 6px 16px; -webkit-overflow-scrolling:touch; cursor:grab; scroll-behavior:auto;}
+  .testi-row.dragging{cursor:grabbing; scroll-snap-type:none;}
   .testi-row::-webkit-scrollbar{height:5px;}
   .testi-row::-webkit-scrollbar-thumb{background:var(--glass-border-strong); border-radius:10px;}
   .testi-card{
@@ -398,13 +424,6 @@
   @keyframes wa-pulse{0%,100%{box-shadow:0 12px 30px -6px rgba(31,174,87,0.6);}50%{box-shadow:0 12px 38px -4px rgba(31,174,87,0.85);}}
   @media (min-width:1024px){#wa-float{bottom:32px; right:32px;}}
 
-  /* mobile sticky cta */
-  #sticky-cta{
-    position:fixed; left:14px; right:14px; bottom:14px; z-index:39;
-    padding:14px; border-radius:18px; text-align:center; font-weight:700; font-size:14.5px;
-  }
-  @media (min-width:768px){#sticky-cta{display:none;}}
-
   .loader{
     position:fixed; inset:0; z-index:200; background:var(--charcoal);
     display:flex; align-items:center; justify-content:center; transition:opacity 0.7s ease, visibility 0.7s ease;
@@ -469,35 +488,23 @@
     </div>
 
     <div class="hero-visual reveal reveal-delay-2">
-      <div class="device device-desktop foil-edge">
-        <div class="mock-face">
-          <div class="mock-seal"></div>
-          <div class="mock-title">Kavindu &amp; Senuri</div>
-          <div class="mock-sub">Are getting married</div>
-          <div class="mline" style="width:60%"></div>
-        </div>
-      </div>
-      <div class="device device-tablet foil-edge">
-        <div class="mock-face">
-          <div class="mock-seal" style="width:24px;height:24px;"></div>
-          <div class="mock-title" style="font-size:12px;">Turning 25</div>
-          <div class="mock-sub" style="font-size:7px;">Birthday Celebration</div>
-        </div>
-      </div>
-      <div class="device device-phone foil-edge">
-        <div class="mock-face">
-          <div class="mock-seal"></div>
-          <div class="mock-title">Save the Date</div>
-          <div class="mock-sub">12 · 12 · 2026</div>
-          <div class="mline" style="width:50%"></div>
-          <div class="mline" style="width:35%"></div>
+      <div class="invite-shadow-card"></div>
+      <div class="invite-shadow-card two"></div>
+
+      <div class="invite-card foil-edge">
+        <div class="invite-cover">
+          <div class="invite-seal">D</div>
+          <div class="invite-title">Kavindu &amp; Senuri</div>
+          <div class="invite-sub">Request the pleasure</div>
+          <div class="invite-line"></div>
+          <div class="invite-date">12 · 12 · 2026 &nbsp;·&nbsp; Colombo</div>
         </div>
       </div>
 
-      <div class="float-chip glass" style="top:4%; left:-4%; color:var(--off-white);"><span class="dot"></span>Interactive</div>
-      <div class="float-chip glass" style="top:40%; right:-6%; color:var(--off-white); animation-delay:1.2s;"><span class="dot"></span>Mobile Friendly</div>
-      <div class="float-chip glass" style="bottom:16%; left:-2%; color:var(--off-white); animation-delay:2s;"><span class="dot"></span>Easy to Share</div>
-      <div class="float-chip glass" style="bottom:-2%; right:6%; color:var(--off-white); animation-delay:0.6s;"><span class="dot"></span>Made For You</div>
+      <div class="float-chip glass" style="top:2%; left:-2%; color:var(--off-white);"><span class="dot"></span>Interactive</div>
+      <div class="float-chip glass" style="top:38%; right:-4%; color:var(--off-white); animation-delay:1.2s;"><span class="dot"></span>Mobile Friendly</div>
+      <div class="float-chip glass" style="bottom:14%; left:-4%; color:var(--off-white); animation-delay:2s;"><span class="dot"></span>Easy to Share</div>
+      <div class="float-chip glass" style="bottom:0%; right:0%; color:var(--off-white); animation-delay:0.6s;"><span class="dot"></span>Made For You</div>
     </div>
   </div>
 </section>
@@ -565,6 +572,7 @@
     <div class="pkg-grid">
       <div class="pkg-card glass reveal">
         <p class="pkg-name">Essential</p>
+        <p class="pkg-price">Rs. 3,900</p>
         <p class="pkg-desc">For a beautiful and simple digital invitation.</p>
         <ul class="pkg-list">
           <li><span class="check">✓</span>Custom design</li>
@@ -579,6 +587,7 @@
       <div class="pkg-card glass-strong foil-edge featured reveal reveal-delay-1">
         <span class="pkg-badge">Most Loved</span>
         <p class="pkg-name">Signature</p>
+        <p class="pkg-price">Rs. 6,900</p>
         <p class="pkg-desc">For a more interactive, memorable invitation.</p>
         <ul class="pkg-list">
           <li><span class="check">✓</span>Premium custom design</li>
@@ -594,6 +603,7 @@
 
       <div class="pkg-card glass reveal reveal-delay-2">
         <p class="pkg-name">Luxe</p>
+        <p class="pkg-price">Rs. 15,900</p>
         <p class="pkg-desc">A complete, fully premium invitation experience.</p>
         <ul class="pkg-list">
           <li><span class="check">✓</span>Fully custom design</li>
@@ -803,15 +813,18 @@
   </div>
 </footer>
 
-<a href="#" class="wa-cta" id="wa-float" aria-label="Chat on WhatsApp" style="color:#fff; font-size:26px;">✆</a>
-<a href="#" class="btn btn-gold wa-cta" id="sticky-cta">Create Your Invitation</a>
+<a href="#" class="wa-cta" id="wa-float" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="#ffffff" aria-hidden="true">
+    <path d="M16.02 3C9.4 3 4 8.36 4 14.94c0 2.2.6 4.28 1.65 6.06L4 29l8.24-1.6a12.9 12.9 0 0 0 3.78.56h.01c6.62 0 12.02-5.36 12.02-11.94C28.05 8.36 22.65 3 16.02 3zm7.03 17.06c-.3.84-1.7 1.6-2.35 1.7-.6.1-1.36.14-2.2-.14-.5-.16-1.15-.37-1.98-.72-3.49-1.5-5.77-5.03-5.95-5.27-.17-.23-1.42-1.88-1.42-3.59 0-1.7.9-2.55 1.22-2.9.31-.34.68-.42.9-.42.23 0 .46 0 .66.01.21.01.5-.08.78.6.3.7 1 2.4 1.09 2.58.09.17.15.37.03.6-.12.23-.18.37-.36.57-.18.2-.38.44-.54.6-.18.17-.36.36-.16.7.2.35.9 1.48 1.93 2.4 1.33 1.18 2.45 1.55 2.8 1.72.35.17.55.15.75-.09.2-.24.86-1 1.09-1.34.23-.35.46-.29.77-.17.31.11 1.98.93 2.32 1.1.34.17.56.26.65.4.09.15.09.85-.21 1.68z"/>
+  </svg>
+</a>
 
 <script>
 (function(){
   "use strict";
 
   /* ---------- CONFIG ---------- */
-  var WHATSAPP_NUMBER = "94771234567"; // <-- change to Dearday.lk's real WhatsApp number (international format, no +)
+  var WHATSAPP_NUMBER = "94716903578"; // Dearday.lk WhatsApp number (international format, no +)
   var DEFAULT_MESSAGE = "Hi Dearday.lk, I'm interested in creating a digital invitation. I'd like to know more about your packages.";
 
   function waLink(message){
@@ -951,7 +964,7 @@
     {name:"Hasini J.", meta:"Proposal · Colombo", quote:"He surprised me with a link instead of a card — I actually cried. Such a unique idea.", stars:5}
   ];
   var testiRow = document.getElementById("testi-row");
-  testimonials.forEach(function(t){
+  function renderTestiCard(t){
     var el = document.createElement("div");
     el.className = "testi-card glass";
     el.innerHTML =
@@ -959,8 +972,84 @@
       '<p class="quote">"' + t.quote + '"</p>' +
       '<div class="testi-name">' + t.name + '</div>' +
       '<div class="testi-meta">' + t.meta + '</div>';
-    testiRow.appendChild(el);
+    return el;
+  }
+  // Render the set twice back-to-back so the auto-scroll can loop seamlessly.
+  testimonials.concat(testimonials).forEach(function(t){
+    testiRow.appendChild(renderTestiCard(t));
   });
+
+  /* ---- Auto-scroll marquee: pauses on hover, respects manual drag/scroll ---- */
+  (function(){
+    var paused = false;
+    var resumeTimer = null;
+    var speed = 0.55; // px per frame
+    var isDown = false;
+    var startX, startScroll;
+    var loopPoint = 0;
+
+    function computeLoopPoint(){
+      loopPoint = testiRow.scrollWidth / 2;
+    }
+    window.addEventListener("load", computeLoopPoint);
+    window.addEventListener("resize", computeLoopPoint);
+    setTimeout(computeLoopPoint, 300);
+
+    function tick(){
+      if(!paused){
+        testiRow.scrollLeft += speed;
+        if(testiRow.scrollLeft >= loopPoint){
+          testiRow.scrollLeft -= loopPoint;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    function pauseThenResume(delay){
+      paused = true;
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function(){ paused = false; }, delay || 1800);
+    }
+
+    testiRow.addEventListener("mouseenter", function(){ paused = true; clearTimeout(resumeTimer); });
+    testiRow.addEventListener("mouseleave", function(){ if(!isDown) paused = false; });
+
+    // Manual drag (mouse)
+    testiRow.addEventListener("mousedown", function(e){
+      isDown = true;
+      testiRow.classList.add("dragging");
+      startX = e.pageX;
+      startScroll = testiRow.scrollLeft;
+      paused = true;
+    });
+    window.addEventListener("mouseup", function(){
+      if(isDown){
+        isDown = false;
+        testiRow.classList.remove("dragging");
+        pauseThenResume(1500);
+      }
+    });
+    window.addEventListener("mousemove", function(e){
+      if(!isDown) return;
+      testiRow.scrollLeft = startScroll - (e.pageX - startX);
+    });
+
+    // Manual touch drag
+    testiRow.addEventListener("touchstart", function(){ paused = true; clearTimeout(resumeTimer); }, {passive:true});
+    testiRow.addEventListener("touchend", function(){ pauseThenResume(1500); }, {passive:true});
+
+    // Native wheel/trackpad or click-scroll interaction
+    testiRow.addEventListener("scroll", function(){
+      if(!isDown){
+        // loop wrap for any manual scroll too
+        if(loopPoint > 0){
+          if(testiRow.scrollLeft >= loopPoint) testiRow.scrollLeft -= loopPoint;
+          if(testiRow.scrollLeft < 0) testiRow.scrollLeft += loopPoint;
+        }
+      }
+    });
+  })();
 
   /* ---------- FAQ DATA ---------- */
   var faqs = [
@@ -999,15 +1088,6 @@
       }
     });
   });
-
-  /* ---------- STICKY MOBILE CTA VISIBILITY ---------- */
-  var stickyCta = document.getElementById("sticky-cta");
-  function toggleSticky(){
-    var heroBottom = document.querySelector(".hero").getBoundingClientRect().bottom;
-    stickyCta.style.display = (heroBottom < 0) ? "block" : "none";
-  }
-  window.addEventListener("scroll", toggleSticky, {passive:true});
-  toggleSticky();
 
   /* ---------- INIT ---------- */
   wireWhatsAppLinks();
