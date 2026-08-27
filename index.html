@@ -104,7 +104,7 @@
 
   /* ---------- Navbar ---------- */
   #navbar{
-    position:fixed; top:0; left:0; right:0; z-index:50;
+    position:fixed; top:0; left:0; right:0; z-index:56;
     padding:18px 0;
     transition:background 0.4s ease, border-color 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
     border-bottom:1px solid transparent;
@@ -148,12 +148,22 @@
   .btn-ghost:hover{border-color:var(--glass-border-strong); background:rgba(64,51,58,0.09); transform:translateY(-2px);}
   .btn-sm{padding:10px 18px; font-size:13px;}
 
-  .hamburger{display:flex; flex-direction:column; gap:5px; width:26px; z-index:60;}
-  .hamburger span{height:1.5px; background:var(--off-white); border-radius:2px; transition:all 0.35s ease;}
+  .hamburger{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    width:46px; height:46px; border-radius:50%; flex-shrink:0;
+    background:var(--glass-bg); border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px) saturate(140%); -webkit-backdrop-filter:blur(14px) saturate(140%);
+    z-index:60; position:relative;
+    transition:background 0.35s ease, border-color 0.35s ease, transform 0.25s ease;
+  }
+  .hamburger:active{transform:scale(0.94);}
+  .hamburger span{width:19px; height:2px; background:var(--off-white); border-radius:2px; transition:all 0.35s cubic-bezier(.4,0,.2,1);}
   @media (min-width:1024px){.hamburger{display:none;}}
-  .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+  .hamburger.open{background:var(--off-white); border-color:var(--off-white);}
+  .hamburger.open span{background:var(--charcoal);}
+  .hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
   .hamburger.open span:nth-child(2){opacity:0;}
-  .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+  .hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
   #mobile-menu{
     position:fixed; inset:0; z-index:55; background:rgba(253,246,241,0.98);
@@ -198,24 +208,38 @@
     padding:11px 8px;
     background:linear-gradient(160deg,#fffaf6,#f1ddd0 70%);
     border:1px solid rgba(64,51,58,0.14);
-    animation:invite-float 6.5s ease-in-out infinite;
+    will-change:transform;
+    backface-visibility:hidden;
   }
   .phone-front{
-    transform:translate(-50%,-50%) rotate(-1deg);
+    animation:float-front 6.5s ease-in-out infinite;
     z-index:5;
     box-shadow:0 45px 80px -25px rgba(140,100,95,0.4), inset 0 0 0 1px rgba(255,255,255,0.7);
   }
   .phone-back-left{
-    transform:translate(-92%,-42%) rotate(-11deg) scale(0.86);
-    z-index:3; opacity:0.92; animation-delay:0.6s;
+    animation:float-back-left 7.2s ease-in-out infinite;
+    animation-delay:0.6s;
+    z-index:3; opacity:0.92;
     box-shadow:0 30px 60px -20px rgba(140,100,95,0.3);
   }
   .phone-back-right{
-    transform:translate(-8%,-42%) rotate(10deg) scale(0.86);
-    z-index:2; opacity:0.88; animation-delay:1.2s;
+    animation:float-back-right 7.6s ease-in-out infinite;
+    animation-delay:1.2s;
+    z-index:2; opacity:0.88;
     box-shadow:0 30px 60px -20px rgba(140,100,95,0.28);
   }
-  @keyframes invite-float{0%,100%{margin-top:0;}50%{margin-top:-14px;}}
+  @keyframes float-front{
+    0%,100%{transform:translate(-50%,-50%) rotate(-1deg) translateY(0);}
+    50%{transform:translate(-50%,-50%) rotate(-1deg) translateY(-14px);}
+  }
+  @keyframes float-back-left{
+    0%,100%{transform:translate(-92%,-42%) rotate(-11deg) scale(0.86) translateY(0);}
+    50%{transform:translate(-92%,-42%) rotate(-11deg) scale(0.86) translateY(12px);}
+  }
+  @keyframes float-back-right{
+    0%,100%{transform:translate(-8%,-42%) rotate(10deg) scale(0.86) translateY(0);}
+    50%{transform:translate(-8%,-42%) rotate(10deg) scale(0.86) translateY(10px);}
+  }
 
   .invite-notch{
     position:absolute; top:20px; left:50%; transform:translateX(-50%);
@@ -963,17 +987,35 @@
   }, {threshold:0.12});
   revealEls.forEach(function(el){ io.observe(el); });
 
-  /* ---------- PORTFOLIO DATA ---------- */
+  /* =====================================================================
+     PORTFOLIO — EASY EDIT ZONE
+     To show your own pre-designed invitation websites to customers,
+     just edit the list below. For each project you can set:
+
+       cat:   category — one of "wedding", "birthday", "engagement",
+              "party", "proposal", "custom" (controls the filter buttons)
+       tag:   small label shown on the card (e.g. "Wedding")
+       title: the project's title
+       desc:  one short line describing it
+       url:   the real link to your finished invitation website.
+              Leave it as "" (empty) if you don't have a live link yet —
+              the button will just scroll to the contact section instead.
+       image: (optional) a real screenshot/photo URL of the invitation.
+              Leave it as "" to keep the default illustrated preview card.
+
+     Just copy one block, paste it, and change the values — you can add
+     as many as you like.
+     ===================================================================== */
   var portfolioItems = [
-    {cat:"wedding", tag:"Wedding", title:"Kavindu & Senuri", desc:"A romantic countdown invitation with gallery and RSVP.", seal:true},
-    {cat:"birthday", tag:"Birthday", title:"Turning Twenty-Five", desc:"A playful, colour-forward birthday experience.", seal:true},
-    {cat:"engagement", tag:"Engagement", title:"The Proposal Story", desc:"An elegant engagement invite with a couple's timeline.", seal:true},
-    {cat:"party", tag:"Party", title:"Rooftop New Year", desc:"A modern party invite with map and music.", seal:true},
-    {cat:"proposal", tag:"Proposal", title:"Will You Marry Me?", desc:"A cinematic surprise proposal experience.", seal:true},
-    {cat:"custom", tag:"Custom", title:"Founders' Anniversary", desc:"A bespoke corporate celebration invitation.", seal:true},
-    {cat:"wedding", tag:"Wedding", title:"Tharindu & Dilki", desc:"Traditional details woven into a modern layout.", seal:true},
-    {cat:"birthday", tag:"Birthday", title:"Little Star Turns One", desc:"A soft, dreamy first-birthday invitation.", seal:true},
-    {cat:"engagement", tag:"Engagement", title:"Ceylon Garden Engagement", desc:"Botanical accents with a live countdown.", seal:true}
+    {cat:"wedding", tag:"Wedding", title:"Kavindu & Senuri", desc:"A romantic countdown invitation with gallery and RSVP.", url:"", image:""},
+    {cat:"birthday", tag:"Birthday", title:"Turning Twenty-Five", desc:"A playful, colour-forward birthday experience.", url:"", image:""},
+    {cat:"engagement", tag:"Engagement", title:"The Proposal Story", desc:"An elegant engagement invite with a couple's timeline.", url:"", image:""},
+    {cat:"party", tag:"Party", title:"Rooftop New Year", desc:"A modern party invite with map and music.", url:"", image:""},
+    {cat:"proposal", tag:"Proposal", title:"Will You Marry Me?", desc:"A cinematic surprise proposal experience.", url:"", image:""},
+    {cat:"custom", tag:"Custom", title:"Founders' Anniversary", desc:"A bespoke corporate celebration invitation.", url:"", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Tharindu & Dilki", desc:"Traditional details woven into a modern layout.", url:"", image:""},
+    {cat:"birthday", tag:"Birthday", title:"Little Star Turns One", desc:"A soft, dreamy first-birthday invitation.", url:"", image:""},
+    {cat:"engagement", tag:"Engagement", title:"Ceylon Garden Engagement", desc:"Botanical accents with a live countdown.", url:"", image:""}
   ];
 
   var pGrid = document.getElementById("portfolio-grid");
@@ -983,18 +1025,26 @@
     el.className = "p-item glass reveal";
     el.setAttribute("data-cat", item.cat);
     var theme = pastelThemes[i % pastelThemes.length];
+
+    var previewHtml = item.image
+      ? '<img src="' + item.image + '" alt="' + item.title + '" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">'
+      : '<div class="mock-face ' + theme + '" style="border-radius:14px;">' +
+          '<div class="mock-seal"></div>' +
+          '<div class="mock-title">' + item.title + '</div>' +
+          '<div class="mock-sub">Digital Invitation</div>' +
+          '<div class="mline" style="width:55%"></div>' +
+        '</div>';
+
+    var linkHref = item.url ? item.url : "#contact";
+    var linkTarget = item.url ? ' target="_blank" rel="noopener noreferrer"' : "";
+
     el.innerHTML =
-      '<div class="p-preview"><div class="mock-face ' + theme + '" style="border-radius:14px;">' +
-        '<div class="mock-seal"></div>' +
-        '<div class="mock-title">' + item.title + '</div>' +
-        '<div class="mock-sub">Digital Invitation</div>' +
-        '<div class="mline" style="width:55%"></div>' +
-      '</div></div>' +
+      '<div class="p-preview">' + previewHtml + '</div>' +
       '<div class="p-body">' +
         '<span class="p-tag">' + item.tag + '</span>' +
         '<h3 class="p-title">' + item.title + '</h3>' +
         '<p class="p-desc">' + item.desc + '</p>' +
-        '<a href="#contact" class="btn btn-ghost btn-sm">View Invitation</a>' +
+        '<a href="' + linkHref + '"' + linkTarget + ' class="btn btn-ghost btn-sm">View Invitation</a>' +
       '</div>';
     pGrid.appendChild(el);
     io.observe(el);
