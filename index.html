@@ -569,7 +569,7 @@
         <div class="phone-frame phone-back-left">
           <div class="invite-notch"></div>
           <div class="invite-cover theme-mint">
-            <div class="invite-seal">♥</div>
+            <div class="invite-seal">D</div>
             <div class="invite-title">Turning 25</div>
             <div class="invite-sub">Birthday Celebration</div>
             <div class="invite-line"></div>
@@ -581,7 +581,7 @@
         <div class="phone-frame phone-back-right">
           <div class="invite-notch"></div>
           <div class="invite-cover theme-lavender">
-            <div class="invite-seal">♥</div>
+            <div class="invite-seal">D</div>
             <div class="invite-title">Save the Date</div>
             <div class="invite-sub">Engagement</div>
             <div class="invite-line"></div>
@@ -593,8 +593,8 @@
         <div class="phone-frame phone-front">
           <div class="invite-notch"></div>
           <div class="invite-cover theme-blush">
-            <div class="invite-seal">♥</div>
-            <div class="invite-title">Rizni &amp; Maryam</div>
+            <div class="invite-seal">D</div>
+            <div class="invite-title">Kavindu &amp; Senuri</div>
             <div class="invite-sub">Request the pleasure</div>
             <div class="invite-line"></div>
             <div class="invite-date">12 · 12 · 2026 &nbsp;·&nbsp; Colombo</div>
@@ -1029,8 +1029,12 @@
        url:   the real link to your finished invitation website.
               Leave it as "" (empty) if you don't have a live link yet —
               the button will just scroll to the contact section instead.
-       image: (optional) a real screenshot/photo URL of the invitation.
-              Leave it as "" to keep the default illustrated preview card.
+              IMPORTANT: as soon as you add a url, the card automatically
+              shows a live screenshot of that website's home page — you
+              don't need to find or upload an image yourself.
+       image: (optional) only needed if you want to force a specific
+              picture instead of the automatic live screenshot.
+              Leave it as "" in almost all cases.
 
      Just copy one block, paste it, and change the values — you can add
      as many as you like.
@@ -1055,14 +1059,26 @@
     el.setAttribute("data-cat", item.cat);
     var theme = pastelThemes[i % pastelThemes.length];
 
-    var previewHtml = item.image
-      ? '<img src="' + item.image + '" alt="' + item.title + '" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">'
-      : '<div class="mock-face ' + theme + '" style="border-radius:14px;">' +
-          '<div class="mock-seal"></div>' +
-          '<div class="mock-title">' + item.title + '</div>' +
-          '<div class="mock-sub">Digital Invitation</div>' +
-          '<div class="mline" style="width:55%"></div>' +
-        '</div>';
+    // If a real link is given but no manual image, automatically show a live
+    // preview of that website's home page as the card thumbnail. The
+    // illustrated fallback always renders underneath, so if the screenshot
+    // service is slow or fails, the card still looks intentional.
+    var autoPreview = (!item.image && item.url) ? ("https://image.thum.io/get/width/700/crop/900/noanimate/" + item.url) : "";
+    var previewSrc = item.image || autoPreview;
+
+    var fallbackHtml =
+      '<div class="mock-face ' + theme + '" style="border-radius:14px;">' +
+        '<div class="mock-seal"></div>' +
+        '<div class="mock-title">' + item.title + '</div>' +
+        '<div class="mock-sub">Digital Invitation</div>' +
+        '<div class="mline" style="width:55%"></div>' +
+      '</div>';
+
+    var previewHtml = fallbackHtml + (previewSrc
+      ? '<img src="' + previewSrc + '" alt="' + item.title + '" loading="lazy" ' +
+        'style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; border-radius:14px;" ' +
+        'onerror="this.style.display=\'none\';">'
+      : '');
 
     var linkHref = item.url ? item.url : "#contact";
     var linkTarget = item.url ? ' target="_blank" rel="noopener noreferrer"' : "";
