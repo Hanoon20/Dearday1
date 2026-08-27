@@ -131,7 +131,7 @@
     // preview of that website's home page as the card thumbnail. The
     // illustrated fallback always renders underneath, so if the screenshot
     // service is slow or fails, the card still looks intentional.
-    var autoPreview = (!item.image && item.url) ? ("https://image.thum.io/get/width/700/crop/900/noanimate/" + item.url) : "";
+    var autoPreview = (!item.image && item.url) ? ("https://image.thum.io/get/width/700/crop/500/noanimate/" + item.url) : "";
     var previewSrc = item.image || autoPreview;
 
     var fallbackHtml =
