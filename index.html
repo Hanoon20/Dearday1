@@ -195,6 +195,10 @@
   .hero h1 em{font-style:italic; color:var(--gold-ink);}
   .hero p.sub{font-size:17.5px; line-height:1.65; color:var(--ink-60); max-width:480px; margin-bottom:34px;}
   .hero-ctas{display:flex; flex-wrap:wrap; gap:14px;}
+  .hero-wa-note{
+    display:flex; align-items:center; margin:20px 0 0; font-size:13.5px; font-weight:600;
+    color:#2fae5f;
+  }
 
   .hero-visual{position:relative; height:520px; display:flex; align-items:center; justify-content:center; overflow:visible; max-width:100%;}
   @media (max-width:1023px){.hero-visual{height:460px;}}
@@ -554,6 +558,10 @@
         <a href="#" class="btn btn-gold wa-cta">Create Your Invitation</a>
         <a href="#portfolio" class="btn btn-ghost">Explore Designs</a>
       </div>
+      <p class="hero-wa-note reveal reveal-delay-4">
+        <svg viewBox="0 0 32 32" width="16" height="16" fill="currentColor" style="vertical-align:-3px; margin-right:6px;"><path d="M16.02 3C9.4 3 4 8.36 4 14.94c0 2.2.6 4.28 1.65 6.06L4 29l8.24-1.6a12.9 12.9 0 0 0 3.78.56h.01c6.62 0 12.02-5.36 12.02-11.94C28.05 8.36 22.65 3 16.02 3zm7.03 17.06c-.3.84-1.7 1.6-2.35 1.7-.6.1-1.36.14-2.2-.14-.5-.16-1.15-.37-1.98-.72-3.49-1.5-5.77-5.03-5.95-5.27-.17-.23-1.42-1.88-1.42-3.59 0-1.7.9-2.55 1.22-2.9.31-.34.68-.42.9-.42.23 0 .46 0 .66.01.21.01.5-.08.78.6.3.7 1 2.4 1.09 2.58.09.17.15.37.03.6-.12.23-.18.37-.36.57-.18.2-.38.44-.54.6-.18.17-.36.36-.16.7.2.35.9 1.48 1.93 2.4 1.33 1.18 2.45 1.55 2.8 1.72.35.17.55.15.75-.09.2-.24.86-1 1.09-1.34.23-.35.46-.29.77-.17.31.11 1.98.93 2.32 1.1.34.17.56.26.65.4.09.15.09.85-.21 1.68z"/></svg>
+        Send your invitation instantly through WhatsApp.
+      </p>
     </div>
 
     <div class="hero-visual reveal reveal-delay-2">
@@ -561,7 +569,7 @@
         <div class="phone-frame phone-back-left">
           <div class="invite-notch"></div>
           <div class="invite-cover theme-mint">
-            <div class="invite-seal">D</div>
+            <div class="invite-seal">♥</div>
             <div class="invite-title">Turning 25</div>
             <div class="invite-sub">Birthday Celebration</div>
             <div class="invite-line"></div>
@@ -573,7 +581,7 @@
         <div class="phone-frame phone-back-right">
           <div class="invite-notch"></div>
           <div class="invite-cover theme-lavender">
-            <div class="invite-seal">D</div>
+            <div class="invite-seal">♥</div>
             <div class="invite-title">Save the Date</div>
             <div class="invite-sub">Engagement</div>
             <div class="invite-line"></div>
@@ -585,8 +593,8 @@
         <div class="phone-frame phone-front">
           <div class="invite-notch"></div>
           <div class="invite-cover theme-blush">
-            <div class="invite-seal">D</div>
-            <div class="invite-title">Kavindu &amp; Senuri</div>
+            <div class="invite-seal">♥</div>
+            <div class="invite-title">Rizni &amp; Maryam</div>
             <div class="invite-sub">Request the pleasure</div>
             <div class="invite-line"></div>
             <div class="invite-date">12 · 12 · 2026 &nbsp;·&nbsp; Colombo</div>
@@ -822,9 +830,9 @@
   </div>
 </section>
 
-<!-- ================= TESTIMONIALS ================= -->
-<!--
-  <section class="section-pad">
+<!-- ================= TESTIMONIALS =================
+     Temporarily hidden. To bring it back, just delete style="display:none;" below. -->
+<section class="section-pad" style="display:none;">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Kind Words</span>
@@ -832,7 +840,7 @@
     </div>
     <div class="testi-row reveal" id="testi-row"></div>
   </div>
-</section>-->
+</section>
 
 <!-- ================= FINAL CTA ================= -->
 <section class="wrap" style="padding:20px 24px 110px;" id="contact">
@@ -868,10 +876,22 @@
       <h2 class="font-display">See what we're creating.</h2>
     </div>
     <div class="social-grid reveal">
-      <a href="#" class="social-tile glass"><span style="font-size:20px;">◎</span>Instagram</a>
-      <a href="#" class="social-tile glass"><span style="font-size:20px;">▤</span>Facebook</a>
-      <a href="#" class="social-tile glass"><span style="font-size:20px;">♪</span>TikTok</a>
-      <a href="#" class="social-tile glass wa-cta"><span style="font-size:20px;">✆</span>WhatsApp</a>
+      <a href="#" class="social-tile glass">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="#" class="social-tile glass">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+        Facebook
+      </a>
+      <a href="#" class="social-tile glass">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16.6 5.82c-.9-.83-1.42-1.98-1.44-3.24H12.5v13.06c0 1.65-1.35 3-3 3s-3-1.35-3-3 1.35-3 3-3c.28 0 .55.04.8.11V10.9a5.9 5.9 0 0 0-.8-.06c-3.26 0-5.9 2.64-5.9 5.9s2.64 5.9 5.9 5.9 5.9-2.64 5.9-5.9V9.01a8.2 8.2 0 0 0 4.6 1.4V7.75a5.4 5.4 0 0 1-3.4-1.93z"/></svg>
+        TikTok
+      </a>
+      <a href="#" class="social-tile glass wa-cta">
+        <svg viewBox="0 0 32 32" width="22" height="22" fill="currentColor"><path d="M16.02 3C9.4 3 4 8.36 4 14.94c0 2.2.6 4.28 1.65 6.06L4 29l8.24-1.6a12.9 12.9 0 0 0 3.78.56h.01c6.62 0 12.02-5.36 12.02-11.94C28.05 8.36 22.65 3 16.02 3zm7.03 17.06c-.3.84-1.7 1.6-2.35 1.7-.6.1-1.36.14-2.2-.14-.5-.16-1.15-.37-1.98-.72-3.49-1.5-5.77-5.03-5.95-5.27-.17-.23-1.42-1.88-1.42-3.59 0-1.7.9-2.55 1.22-2.9.31-.34.68-.42.9-.42.23 0 .46 0 .66.01.21.01.5-.08.78.6.3.7 1 2.4 1.09 2.58.09.17.15.37.03.6-.12.23-.18.37-.36.57-.18.2-.38.44-.54.6-.18.17-.36.36-.16.7.2.35.9 1.48 1.93 2.4 1.33 1.18 2.45 1.55 2.8 1.72.35.17.55.15.75-.09.2-.24.86-1 1.09-1.34.23-.35.46-.29.77-.17.31.11 1.98.93 2.32 1.1.34.17.56.26.65.4.09.15.09.85-.21 1.68z"/></svg>
+        WhatsApp
+      </a>
     </div>
   </div>
 </section>
@@ -884,10 +904,18 @@
         <a href="#home" class="logo">Dearday<span class="dot">.</span>lk</a>
         <p style="color:var(--ink-60); font-size:14px; margin:14px 0 0; max-width:340px; line-height:1.6;">Invitations, Digitally. Beautiful digital invitations created for weddings, birthdays, engagements, parties and every special moment.</p>
         <div class="footer-social">
-          <a href="#" aria-label="Instagram">◎</a>
-          <a href="#" aria-label="Facebook">▤</a>
-          <a href="#" aria-label="TikTok">♪</a>
-          <a href="#" class="wa-cta" aria-label="WhatsApp">✆</a>
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16.6 5.82c-.9-.83-1.42-1.98-1.44-3.24H12.5v13.06c0 1.65-1.35 3-3 3s-3-1.35-3-3 1.35-3 3-3c.28 0 .55.04.8.11V10.9a5.9 5.9 0 0 0-.8-.06c-3.26 0-5.9 2.64-5.9 5.9s2.64 5.9 5.9 5.9 5.9-2.64 5.9-5.9V9.01a8.2 8.2 0 0 0 4.6 1.4V7.75a5.4 5.4 0 0 1-3.4-1.93z"/></svg>
+          </a>
+          <a href="#" class="wa-cta" aria-label="WhatsApp">
+            <svg viewBox="0 0 32 32" width="16" height="16" fill="currentColor"><path d="M16.02 3C9.4 3 4 8.36 4 14.94c0 2.2.6 4.28 1.65 6.06L4 29l8.24-1.6a12.9 12.9 0 0 0 3.78.56h.01c6.62 0 12.02-5.36 12.02-11.94C28.05 8.36 22.65 3 16.02 3zm7.03 17.06c-.3.84-1.7 1.6-2.35 1.7-.6.1-1.36.14-2.2-.14-.5-.16-1.15-.37-1.98-.72-3.49-1.5-5.77-5.03-5.95-5.27-.17-.23-1.42-1.88-1.42-3.59 0-1.7.9-2.55 1.22-2.9.31-.34.68-.42.9-.42.23 0 .46 0 .66.01.21.01.5-.08.78.6.3.7 1 2.4 1.09 2.58.09.17.15.37.03.6-.12.23-.18.37-.36.57-.18.2-.38.44-.54.6-.18.17-.36.36-.16.7.2.35.9 1.48 1.93 2.4 1.33 1.18 2.45 1.55 2.8 1.72.35.17.55.15.75-.09.2-.24.86-1 1.09-1.34.23-.35.46-.29.77-.17.31.11 1.98.93 2.32 1.1.34.17.56.26.65.4.09.15.09.85-.21 1.68z"/></svg>
+          </a>
         </div>
       </div>
       <div class="footer-links">
@@ -1008,7 +1036,7 @@
      as many as you like.
      ===================================================================== */
   var portfolioItems = [
-    {cat:"wedding", tag:"Wedding", title:"Kavindu & Senuri", desc:"A romantic countdown invitation with gallery and RSVP.", url:"", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Kavindu & Senuri", desc:"A romantic countdown invitation with gallery and RSVP.", url:"https://sajathaalya.netlify.app/", image:""},
     {cat:"birthday", tag:"Birthday", title:"Turning Twenty-Five", desc:"A playful, colour-forward birthday experience.", url:"", image:""},
     {cat:"engagement", tag:"Engagement", title:"The Proposal Story", desc:"An elegant engagement invite with a couple's timeline.", url:"", image:""},
     {cat:"party", tag:"Party", title:"Rooftop New Year", desc:"A modern party invite with map and music.", url:"", image:""},
