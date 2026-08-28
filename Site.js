@@ -1,3 +1,49 @@
+const portfolioGrid = document.getElementById("portfolio-grid");
+
+if (portfolioGrid) {
+  const portfolioItems = [
+    {
+      title: "Sajath & Alya",
+      category: "Wedding Invitation",
+      url: "https://sajathaalya.netlify.app/"
+    },
+    {
+      title: "Aqeel & Hana",
+      category: "Wedding Invitation",
+      url: "https://aqeel-hana.netlify.app/"
+    }
+  ];
+
+  portfolioGrid.innerHTML = portfolioItems.map((item) => `
+    <article class="portfolio-card glass reveal">
+      <div class="portfolio-preview">
+        <iframe
+          src="${item.url}"
+          title="${item.title}"
+          loading="lazy"
+          scrolling="no"
+        ></iframe>
+
+        <div class="portfolio-overlay">
+          <a
+            href="${item.url}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="portfolio-view-btn"
+          >
+            View Full Invitation ↗
+          </a>
+        </div>
+      </div>
+
+      <div class="portfolio-info">
+        <h3>${item.title}</h3>
+        <p>${item.category}</p>
+      </div>
+    </article>
+  `).join("");
+}
+
 (function(){
   "use strict";
 
