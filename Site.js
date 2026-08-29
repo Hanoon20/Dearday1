@@ -1,49 +1,3 @@
-const portfolioGrid = document.getElementById("portfolio-grid");
-
-if (portfolioGrid) {
-  const portfolioItems = [
-    {
-      title: "Sajath & Alya",
-      category: "Wedding Invitation",
-      url: "https://sajathaalya.netlify.app/"
-    },
-    {
-      title: "Aqeel & Hana",
-      category: "Wedding Invitation",
-      url: "https://aqeel-hana.netlify.app/"
-    }
-  ];
-
-  portfolioGrid.innerHTML = portfolioItems.map((item) => `
-    <article class="portfolio-card glass reveal">
-      <div class="portfolio-preview">
-        <iframe
-          src="${item.url}"
-          title="${item.title}"
-          loading="lazy"
-          scrolling="no"
-        ></iframe>
-
-        <div class="portfolio-overlay">
-          <a
-            href="${item.url}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="portfolio-view-btn"
-          >
-            View Full Invitation ↗
-          </a>
-        </div>
-      </div>
-
-      <div class="portfolio-info">
-        <h3>${item.title}</h3>
-        <p>${item.category}</p>
-      </div>
-    </article>
-  `).join("");
-}
-
 (function(){
   "use strict";
 
@@ -142,43 +96,38 @@ if (portfolioGrid) {
               Leave it as "" (empty) if you don't have a live link yet —
               the button will just scroll to the contact section instead.
               IMPORTANT: as soon as you add a url, the card automatically
-              shows a live screenshot of that website's home page — you
-              don't need to find or upload an image yourself.
-       image: (optional) only needed if you want to force a specific
-              picture instead of the automatic live screenshot.
-              Leave it as "" in almost all cases.
+              shows a LIVE, fully interactive preview of that website —
+              visitors can click links and scroll around inside it right
+              on the card, not just look at a picture of it.
+       image: (optional) only set this if you'd rather show a lightweight
+              static screenshot instead of the live interactive preview
+              (e.g. if a site is slow to load). Leave it as "" in almost
+              all cases — the live preview is used automatically.
 
      Just copy one block, paste it, and change the values — you can add
      as many as you like.
      ===================================================================== */
   var portfolioItems = [
-    {cat:"wedding", tag:"Wedding", title:"Kavindu & Senuri", desc:"A romantic countdown invitation with gallery and RSVP.", url:"https://sajathaalya.netlify.app/", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Aqeel & Hana",desc:"Traditional details woven into a modern layout.",url:"https://aqeel-hana.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Sajath & Alya", desc:"A romantic countdown invitation with gallery and RSVP.", url:"https://sajathaalya.netlify.app/", image:""},
     {cat:"birthday", tag:"Birthday", title:"Turning Twenty-Five", desc:"A playful, colour-forward birthday experience.", url:"", image:""},
     {cat:"engagement", tag:"Engagement", title:"The Proposal Story", desc:"An elegant engagement invite with a couple's timeline.", url:"", image:""},
     {cat:"party", tag:"Party", title:"Rooftop New Year", desc:"A modern party invite with map and music.", url:"", image:""},
     {cat:"proposal", tag:"Proposal", title:"Will You Marry Me?", desc:"A cinematic surprise proposal experience.", url:"", image:""},
     {cat:"custom", tag:"Custom", title:"Founders' Anniversary", desc:"A bespoke corporate celebration invitation.", url:"", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Aqeel & Hana", desc:"Traditional details woven into a modern layout.", url:"https://aqeel-hana.netlify.app/", image:""},
     {cat:"birthday", tag:"Birthday", title:"Little Star Turns One", desc:"A soft, dreamy first-birthday invitation.", url:"", image:""},
     {cat:"engagement", tag:"Engagement", title:"Ceylon Garden Engagement", desc:"Botanical accents with a live countdown.", url:"", image:""}
   ];
 
   // Which projects (by exact title) show up in the homepage's short preview.
   // Edit this list to change what appears there — order matters.
-  var featuredSlugs = ["Kavindu & Senuri", "Turning Twenty-Five", "The Proposal Story"];
+  var featuredSlugs = ["Sajath & Alya", "Turning Twenty-Five", "The Proposal Story"];
 
   function buildPortfolioCard(item, i){
     var el = document.createElement("div");
     el.className = "p-item glass reveal";
     el.setAttribute("data-cat", item.cat);
     var theme = pastelThemes[i % pastelThemes.length];
-
-    // If a real link is given but no manual image, automatically show a live
-    // preview of that website's home page as the card thumbnail. The
-    // illustrated fallback always renders underneath, so if the screenshot
-    // service is slow or fails, the card still looks intentional.
-    var autoPreview = (!item.image && item.url) ? ("https://image.thum.io/get/width/700/crop/1150/noanimate/" + item.url) : "";
-    var previewSrc = item.image || autoPreview;
 
     var fallbackHtml =
       '<div class="mock-face ' + theme + '" style="border-radius:14px;">' +
@@ -188,11 +137,25 @@ if (portfolioGrid) {
         '<div class="mline" style="width:55%"></div>' +
       '</div>';
 
-    var previewHtml = fallbackHtml + (previewSrc
-      ? '<img src="' + previewSrc + '" alt="' + item.title + '" loading="lazy" ' +
-        'style="position:absolute; inset:26px; width:calc(100% - 52px); height:calc(100% - 52px); object-fit:cover; object-position:top center; border-radius:14px; box-shadow:0 12px 30px -14px rgba(64,51,58,0.35);" ' +
-        'onerror="this.style.display=\'none\';">'
-      : '');
+    var overlayHtml = "";
+    if(item.image){
+      // Manual override: a lightweight static picture instead of a live embed.
+      overlayHtml =
+        '<img src="' + item.image + '" alt="' + item.title + '" loading="lazy" ' +
+        'style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center;" ' +
+        'onerror="this.style.display=\'none\';">';
+    } else if(item.url){
+      // Live, fully interactive embed of the real site — visitors can click
+      // links and scroll around inside it directly on the card. Only the
+      // small badge in the corner captures clicks on its own; everywhere
+      // else on the preview goes straight through to the embedded site.
+      overlayHtml =
+        '<iframe src="' + item.url + '" title="' + item.title + '" loading="lazy" ' +
+        'style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>' +
+        '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer" class="p-preview-badge">Open Full Site ↗</a>';
+    }
+
+    var previewHtml = fallbackHtml + overlayHtml;
 
     var linkHref = item.url ? item.url : "#contact";
     var linkTarget = item.url ? ' target="_blank" rel="noopener noreferrer"' : "";
