@@ -115,7 +115,7 @@
      ===================================================================== */
   var portfolioItems = [
     {cat:"wedding", tag:"Wedding", title:"Sajath & Alya", desc:"A romantic countdown invitation with gallery and RSVP.", url:"https://sajathaalya.netlify.app/", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Aqeel & Hana", desc:"Traditional details woven into a modern layout.", url:"https://aqeel-hana.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Aqeel & Hana", desc:"Traditional details woven into a modern layout.", url:"https://aqeel-hana.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Marlin & Sahnas", desc:".", url:"https://dark-cream.netlify.app/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Olive-promise", desc:"Traditional details woven into a modern layout.", url:"https://olive-promise.netlify.app/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Eventa-galaxy", desc:"Traditional details woven into a modern layout.", url:"https://eterna-galaxy.netlify.app/", image:""},
