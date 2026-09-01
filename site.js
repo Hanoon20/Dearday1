@@ -21,13 +21,19 @@
     });
   }
 
-  /* ---------- LOADER ---------- */
-  window.addEventListener("load", function(){
-    var loader = document.getElementById("loader");
-    if(loader){
-      setTimeout(function(){ loader.classList.add("hide"); }, 500);
-    }
-  });
+  /* ---------- LOADER ----------
+     Note: this deliberately does NOT wait for window's "load" event.
+     That event only fires once every sub-resource on the page — including
+     the live iframes embedding real external invitation sites in the
+     portfolio preview — has fully finished loading. If one of those is
+     slow, blocked, or never resolves, "load" may never fire and the
+     loading screen would be stuck forever. Since this script runs at the
+     very end of <body>, the page's own HTML is already ready by the time
+     we get here, so we just hide the loader on a short fixed timer. */
+  var loader = document.getElementById("loader");
+  if(loader){
+    setTimeout(function(){ loader.classList.add("hide"); }, 500);
+  }
 
   /* ---------- NAVBAR SCROLL ---------- */
   var navbar = document.getElementById("navbar");
@@ -109,12 +115,15 @@
      ===================================================================== */
   var portfolioItems = [
     {cat:"wedding", tag:"Wedding", title:"Sajath & Alya", desc:"A romantic countdown invitation with gallery and RSVP.", url:"https://sajathaalya.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Aqeel & Hana", desc:"Traditional details woven into a modern layout.", url:"https://aqeel-hana.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Marlin & Sahnas", desc:".", url:"https://dark-cream.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Olive-promise", desc:"Traditional details woven into a modern layout.", url:"https://olive-promise.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Eventa-galaxy", desc:"Traditional details woven into a modern layout.", url:"https://eterna-galaxy.netlify.app/", image:""},
     {cat:"birthday", tag:"Birthday", title:"Turning Twenty-Five", desc:"A playful, colour-forward birthday experience.", url:"", image:""},
     {cat:"engagement", tag:"Engagement", title:"The Proposal Story", desc:"An elegant engagement invite with a couple's timeline.", url:"", image:""},
     {cat:"party", tag:"Party", title:"Rooftop New Year", desc:"A modern party invite with map and music.", url:"", image:""},
     {cat:"proposal", tag:"Proposal", title:"Will You Marry Me?", desc:"A cinematic surprise proposal experience.", url:"", image:""},
     {cat:"custom", tag:"Custom", title:"Founders' Anniversary", desc:"A bespoke corporate celebration invitation.", url:"", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Aqeel & Hana", desc:"Traditional details woven into a modern layout.", url:"https://aqeel-hana.netlify.app/", image:""},
     {cat:"birthday", tag:"Birthday", title:"Little Star Turns One", desc:"A soft, dreamy first-birthday invitation.", url:"", image:""},
     {cat:"engagement", tag:"Engagement", title:"Ceylon Garden Engagement", desc:"Botanical accents with a live countdown.", url:"", image:""}
   ];
