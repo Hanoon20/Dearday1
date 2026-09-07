@@ -501,9 +501,16 @@
   .p-tag{font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-ink); font-weight:700; margin-bottom:8px; display:block;}
   .p-title{font-size:17px; font-weight:700; margin:0 0 6px;}
   .p-desc{font-size:13.5px; color:var(--ink-60); margin:0 0 16px; line-height:1.5;}
-  .p-actions{display:flex; gap:9px; flex-wrap:wrap; align-items:stretch;}
+  .p-actions{display:flex; gap:9px; flex-wrap:wrap; align-items:center;}
   .p-actions .btn{flex:1 1 130px; min-width:0; justify-content:center; padding-left:14px; padding-right:14px;}
-  .order-btn{box-shadow:0 8px 22px -8px rgba(201,168,118,0.7);}
+  /* Order Now keeps its 3D raised edge, so give the row a little room
+     underneath and nudge the flat button to sit on the same baseline. */
+  .p-actions{padding-bottom:5px;}
+  .p-actions .btn-flat{margin-bottom:0;}
+  .order-btn{box-shadow:
+    0 5px 0 0 #a5824a,
+    0 10px 20px -6px rgba(140,105,55,0.5),
+    inset 0 1px 0 0 rgba(255,255,255,0.75);}
 
   /* ---------- Order popup ---------- */
   .order-modal{position:fixed; inset:0; z-index:120; display:none;}
