@@ -176,7 +176,12 @@
         '<span class="p-tag">' + item.tag + '</span>' +
         '<h3 class="p-title">' + item.title + '</h3>' +
         '<p class="p-desc">' + item.desc + '</p>' +
-        '<a href="' + linkHref + '"' + linkTarget + ' class="btn btn-ghost btn-sm">View Invitation</a>' +
+        '<div class="p-actions">' +
+          '<a href="' + linkHref + '"' + linkTarget + ' class="btn btn-ghost btn-sm">View Invitation</a>' +
+          '<button type="button" class="btn btn-gold btn-sm order-btn" ' +
+            'data-design="' + String(item.title).replace(/"/g, "&quot;") + '" ' +
+            'data-link="' + (item.url || "") + '">Order Now</button>' +
+        '</div>' +
       '</div>';
     return el;
   }
@@ -364,6 +369,132 @@
       });
     });
   }
+
+  /* =====================================================================
+     ORDER POPUP
+     Clicking "Order Now" on any portfolio card opens a small form asking
+     for the couple's details. On submit, it opens WhatsApp with a message
+     that already contains everything they typed, plus the exact design
+     name and its link — so you know precisely which design they want.
+     ===================================================================== */
+  (function(){
+    var orderButtons = document.querySelectorAll(".order-btn");
+    if(!orderButtons.length) return;
+
+    // Build the modal once and reuse it for every card.
+    var modal = document.createElement("div");
+    modal.className = "order-modal";
+    modal.setAttribute("aria-hidden", "true");
+    modal.innerHTML =
+      '<div class="order-modal-backdrop" data-close="1"></div>' +
+      '<div class="order-modal-card glass-strong" role="dialog" aria-modal="true" aria-label="Order this invitation">' +
+        '<button type="button" class="order-modal-close" data-close="1" aria-label="Close">&times;</button>' +
+        '<span class="eyebrow">Order This Design</span>' +
+        '<h3 class="order-modal-title font-display">Tell us about your day.</h3>' +
+        '<p class="order-modal-design"></p>' +
+        '<div class="order-field">' +
+          '<label for="order-groom">Groom Name</label>' +
+          '<input type="text" id="order-groom" autocomplete="off" placeholder="e.g. Aqeel">' +
+        '</div>' +
+        '<div class="order-field">' +
+          '<label for="order-bride">Bride Name</label>' +
+          '<input type="text" id="order-bride" autocomplete="off" placeholder="e.g. Hana">' +
+        '</div>' +
+        '<div class="order-field">' +
+          '<label for="order-date">Wedding Date</label>' +
+          '<input type="date" id="order-date">' +
+        '</div>' +
+        '<div class="order-field">' +
+          '<label for="order-venue">Venue</label>' +
+          '<input type="text" id="order-venue" autocomplete="off" placeholder="e.g. Galle Face Hotel, Colombo">' +
+        '</div>' +
+        '<p class="order-error" hidden>Please fill in all the fields above.</p>' +
+        '<button type="button" class="btn btn-gold order-submit" style="width:100%; margin-top:6px;">' +
+          '<svg viewBox="0 0 32 32" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.36 4 14.94c0 2.2.6 4.28 1.65 6.06L4 29l8.24-1.6a12.9 12.9 0 0 0 3.78.56h.01c6.62 0 12.02-5.36 12.02-11.94C28.05 8.36 22.65 3 16.02 3zm7.03 17.06c-.3.84-1.7 1.6-2.35 1.7-.6.1-1.36.14-2.2-.14-.5-.16-1.15-.37-1.98-.72-3.49-1.5-5.77-5.03-5.95-5.27-.17-.23-1.42-1.88-1.42-3.59 0-1.7.9-2.55 1.22-2.9.31-.34.68-.42.9-.42.23 0 .46 0 .66.01.21.01.5-.08.78.6.3.7 1 2.4 1.09 2.58.09.17.15.37.03.6-.12.23-.18.37-.36.57-.18.2-.38.44-.54.6-.18.17-.36.36-.16.7.2.35.9 1.48 1.93 2.4 1.33 1.18 2.45 1.55 2.8 1.72.35.17.55.15.75-.09.2-.24.86-1 1.09-1.34.23-.35.46-.29.77-.17.31.11 1.98.93 2.32 1.1.34.17.56.26.65.4.09.15.09.85-.21 1.68z"/></svg>' +
+          'Continue with WhatsApp' +
+        '</button>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    var designLabel = modal.querySelector(".order-modal-design");
+    var errorMsg = modal.querySelector(".order-error");
+    var groomInput = modal.querySelector("#order-groom");
+    var brideInput = modal.querySelector("#order-bride");
+    var dateInput = modal.querySelector("#order-date");
+    var venueInput = modal.querySelector("#order-venue");
+
+    var currentDesign = "";
+    var currentLink = "";
+
+    function openModal(design, link){
+      currentDesign = design || "";
+      currentLink = link || "";
+      designLabel.textContent = currentDesign ? "Design: " + currentDesign : "";
+      errorMsg.hidden = true;
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      setTimeout(function(){ groomInput.focus(); }, 120);
+    }
+
+    function closeModal(){
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    orderButtons.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        openModal(btn.getAttribute("data-design"), btn.getAttribute("data-link"));
+      });
+    });
+
+    modal.addEventListener("click", function(e){
+      if(e.target.getAttribute("data-close")) closeModal();
+    });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
+
+    function formatDate(value){
+      if(!value) return "";
+      var parts = value.split("-"); // yyyy-mm-dd from the date input
+      if(parts.length !== 3) return value;
+      return parts[2] + "/" + parts[1] + "/" + parts[0]; // dd/mm/yyyy
+    }
+
+    modal.querySelector(".order-submit").addEventListener("click", function(){
+      var groom = groomInput.value.trim();
+      var bride = brideInput.value.trim();
+      var date = dateInput.value;
+      var venue = venueInput.value.trim();
+
+      if(!groom || !bride || !date || !venue){
+        errorMsg.hidden = false;
+        return;
+      }
+      errorMsg.hidden = true;
+
+      var lines = [
+        "Hi Dearday.lk, I'd like to order a digital wedding invitation.",
+        "",
+        "Design: " + currentDesign
+      ];
+      if(currentLink) lines.push("Design link: " + currentLink);
+      lines.push(
+        "",
+        "Groom Name: " + groom,
+        "Bride Name: " + bride,
+        "Wedding Date: " + formatDate(date),
+        "Venue: " + venue,
+        "",
+        "Please send me more details."
+      );
+
+      window.open(waLink(lines.join("\n")), "_blank", "noopener,noreferrer");
+      closeModal();
+    });
+  })();
 
   /* ---------- INIT ---------- */
   wireWhatsAppLinks();
