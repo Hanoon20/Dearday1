@@ -178,7 +178,7 @@
         '<h3 class="p-title">' + item.title + '</h3>' +
         '<p class="p-desc">' + item.desc + '</p>' +
         '<div class="p-actions">' +
-          '<a href="' + linkHref + '"' + linkTarget + ' class="btn btn-ghost btn-sm">View Invitation</a>' +
+          '<a href="' + linkHref + '"' + linkTarget + ' class="btn btn-ghost btn-sm btn-flat">View Invitation</a>' +
           '<button type="button" class="btn btn-gold btn-sm order-btn" ' +
             'data-design="' + String(item.title).replace(/"/g, "&quot;") + '" ' +
             'data-link="' + (item.url || "") + '">Order Now</button>' +
