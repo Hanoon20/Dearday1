@@ -194,6 +194,37 @@
   }
   .btn-sm{padding:10px 18px; font-size:13px;}
 
+  /* --- Flat variant: normal button look, no 3D raised edge --- */
+  .btn-flat.btn-gold{
+    background:linear-gradient(135deg, var(--gold-soft), var(--gold));
+    color:#5b431d;
+    box-shadow:0 8px 24px -10px rgba(201,168,118,0.6);
+    text-shadow:none;
+  }
+  .btn-flat.btn-gold:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 30px -12px rgba(201,168,118,0.7);
+  }
+  .btn-flat.btn-gold:active{
+    transform:translateY(0);
+    box-shadow:0 6px 16px -10px rgba(201,168,118,0.6);
+  }
+  .btn-flat.btn-ghost{
+    background:rgba(255,255,255,0.6);
+    border:1px solid rgba(64,51,58,0.14);
+    box-shadow:none;
+  }
+  .btn-flat.btn-ghost:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,0.85);
+    border-color:rgba(64,51,58,0.22);
+    box-shadow:0 10px 22px -14px rgba(64,51,58,0.4);
+  }
+  .btn-flat.btn-ghost:active{
+    transform:translateY(0);
+    box-shadow:none;
+  }
+
   .hamburger{
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
     width:46px; height:46px; border-radius:50%; flex-shrink:0;
@@ -233,71 +264,21 @@
   .hero-grid{display:grid; grid-template-columns:1fr; gap:56px; align-items:center;}
   @media (min-width:1024px){.hero-grid{grid-template-columns:1.05fr 0.95fr; gap:40px;}}
 
-  .hero-copy{max-width:560px;}
-
-  .hero-badge{
-    display:inline-flex; align-items:center; gap:9px;
-    padding:8px 16px 8px 12px; border-radius:999px;
-    background:rgba(255,255,255,0.6); border:1px solid rgba(64,51,58,0.1);
-    backdrop-filter:blur(14px) saturate(140%); -webkit-backdrop-filter:blur(14px) saturate(140%);
-    box-shadow:0 8px 20px -12px rgba(120,90,95,0.4);
-    font-size:12px; letter-spacing:0.16em; text-transform:uppercase;
-    color:var(--gold-ink); font-weight:700;
-  }
-  .hero-badge-dot{
-    width:7px; height:7px; border-radius:50%; background:#2fae5f; flex-shrink:0;
-    box-shadow:0 0 0 0 rgba(47,174,95,0.6);
-    animation:badge-pulse 2.4s ease-out infinite;
-  }
-  @keyframes badge-pulse{
-    0%{box-shadow:0 0 0 0 rgba(47,174,95,0.55);}
-    70%{box-shadow:0 0 0 7px rgba(47,174,95,0);}
-    100%{box-shadow:0 0 0 0 rgba(47,174,95,0);}
-  }
+  .hero-copy{max-width:540px;}
 
   .hero h1{
     font-size:clamp(2.4rem, 5.6vw, 4.1rem);
     line-height:1.06; font-weight:600; letter-spacing:-0.015em;
-    margin:22px 0 20px;
+    margin:20px 0 20px;
   }
-  .hero h1 em{
-    font-style:italic; color:var(--gold-ink);
-    position:relative; display:inline-block; isolation:isolate;
-  }
-  .hero h1 em::after{
-    content:''; position:absolute; left:0; right:0; bottom:0.08em; height:0.28em;
-    background:linear-gradient(90deg, rgba(201,168,118,0.42), rgba(201,168,118,0.1));
-    border-radius:3px; z-index:-1;
-  }
+  .hero h1 em{font-style:italic; color:var(--gold-ink);}
 
-  .hero p.sub{font-size:17.5px; line-height:1.65; color:var(--ink-60); max-width:490px; margin:0 0 26px;}
-
-  .hero-points{
-    list-style:none; padding:0; margin:0 0 32px;
-    display:flex; flex-wrap:wrap; gap:10px 22px;
-  }
-  .hero-points li{
-    display:flex; align-items:center; gap:8px;
-    font-size:13.5px; font-weight:600; color:var(--off-white);
-  }
-  .hero-point-ic{
-    width:19px; height:19px; border-radius:50%; flex-shrink:0;
-    display:inline-flex; align-items:center; justify-content:center;
-    font-size:11px; font-weight:700; color:#4a7a5f;
-    background:rgba(143,201,184,0.35); border:1px solid rgba(143,201,184,0.6);
-  }
+  .hero p.sub{font-size:17.5px; line-height:1.65; color:var(--ink-60); max-width:460px; margin:0 0 34px;}
 
   .hero-ctas{display:flex; flex-wrap:wrap; gap:14px;}
-  .hero-wa-note{
-    display:flex; align-items:center; margin:24px 0 0; font-size:13.5px; font-weight:600;
-    color:#2fae5f;
-  }
 
   @media (max-width:600px){
-    .hero-badge{font-size:10.5px; letter-spacing:0.12em; padding:7px 13px 7px 10px;}
-    .hero p.sub{font-size:16px;}
-    .hero-points{gap:9px 16px; margin-bottom:26px;}
-    .hero-points li{font-size:12.5px;}
+    .hero p.sub{font-size:16px; margin-bottom:28px;}
     .hero-ctas .btn{flex:1 1 100%;}
   }
 
