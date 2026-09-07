@@ -462,7 +462,17 @@
   .p-preview{
     aspect-ratio:4/5; position:relative; overflow:hidden;
     display:flex; align-items:center; justify-content:center; padding:26px;
+    /* Isolate each preview so an embedded site's layout/paint work can't
+       trigger recalculation of the rest of the page while scrolling. */
+    contain:layout paint style;
   }
+  .p-frame-slot{position:absolute; inset:0;}
+  /* Skip rendering work entirely for cards that are off screen. The
+     fixed intrinsic size keeps the scrollbar length stable. */
+  .p-item{content-visibility:auto; contain-intrinsic-size:auto 520px;}
+  /* Once revealed, stop skipping render work so the fade-in animation and
+     any card hover effects behave normally. */
+  .p-item.is-visible{content-visibility:visible;}
   .p-preview iframe{ pointer-events:auto; background:var(--charcoal-2); }
   .p-preview-badge{
     position:absolute; bottom:12px; right:12px; z-index:5;
