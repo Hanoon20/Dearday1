@@ -129,7 +129,7 @@
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
     padding:14px 26px; border-radius:999px; font-weight:600; font-size:14.5px;
-    transition:transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s ease, background 0.35s ease, border-color .35s ease;
+    transition:transform 0.18s cubic-bezier(.2,.8,.2,1), box-shadow 0.18s ease, background 0.35s ease, border-color .35s ease, filter 0.25s ease;
     white-space:nowrap;
     /* Normalize <button> against Android/Chrome UA defaults so button and
        anchor variants render identically (border, height, font, tap flash). */
@@ -140,17 +140,58 @@
     box-sizing:border-box;
     text-decoration:none;
     -webkit-tap-highlight-color:transparent;
+    position:relative;
+    transform:translateZ(0);
+    will-change:transform;
   }
+  /* --- 3D press effect: buttons sit on a solid edge and push into it --- */
   .btn-gold{
-    background:linear-gradient(135deg, var(--gold-soft), var(--gold));
-    color:var(--off-white);
-    box-shadow:0 8px 24px -8px rgba(201,168,118,0.55);
+    background:linear-gradient(180deg, #f0dcb4 0%, var(--gold-soft) 45%, var(--gold) 100%);
+    color:#5b431d;
+    box-shadow:
+      0 5px 0 0 #a5824a,
+      0 10px 20px -6px rgba(140,105,55,0.5),
+      inset 0 1px 0 0 rgba(255,255,255,0.75);
+    text-shadow:0 1px 0 rgba(255,255,255,0.35);
   }
-  .btn-gold:hover{transform:translateY(-2px); box-shadow:0 14px 32px -8px rgba(201,168,118,0.7);}
+  .btn-gold:hover{
+    transform:translateY(-2px);
+    box-shadow:
+      0 7px 0 0 #a5824a,
+      0 16px 26px -8px rgba(140,105,55,0.55),
+      inset 0 1px 0 0 rgba(255,255,255,0.8);
+  }
+  .btn-gold:active{
+    transform:translateY(4px);
+    box-shadow:
+      0 1px 0 0 #a5824a,
+      0 3px 8px -4px rgba(140,105,55,0.5),
+      inset 0 2px 5px 0 rgba(120,90,45,0.3);
+  }
   .btn-ghost{
-    background:rgba(64,51,58,0.05); color:var(--off-white); border:1px solid var(--glass-border);
+    background:linear-gradient(180deg, #ffffff 0%, #f6ece4 100%);
+    color:var(--off-white);
+    border:1px solid rgba(64,51,58,0.14);
+    box-shadow:
+      0 5px 0 0 rgba(64,51,58,0.16),
+      0 10px 18px -8px rgba(64,51,58,0.28),
+      inset 0 1px 0 0 rgba(255,255,255,0.9);
   }
-  .btn-ghost:hover{border-color:var(--glass-border-strong); background:rgba(64,51,58,0.09); transform:translateY(-2px);}
+  .btn-ghost:hover{
+    transform:translateY(-2px);
+    border-color:rgba(64,51,58,0.22);
+    box-shadow:
+      0 7px 0 0 rgba(64,51,58,0.16),
+      0 15px 24px -10px rgba(64,51,58,0.3),
+      inset 0 1px 0 0 rgba(255,255,255,0.95);
+  }
+  .btn-ghost:active{
+    transform:translateY(4px);
+    box-shadow:
+      0 1px 0 0 rgba(64,51,58,0.16),
+      0 3px 7px -4px rgba(64,51,58,0.3),
+      inset 0 2px 5px 0 rgba(64,51,58,0.14);
+  }
   .btn-sm{padding:10px 18px; font-size:13px;}
 
   .hamburger{
@@ -192,17 +233,72 @@
   .hero-grid{display:grid; grid-template-columns:1fr; gap:56px; align-items:center;}
   @media (min-width:1024px){.hero-grid{grid-template-columns:1.05fr 0.95fr; gap:40px;}}
 
+  .hero-copy{max-width:560px;}
+
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:9px;
+    padding:8px 16px 8px 12px; border-radius:999px;
+    background:rgba(255,255,255,0.6); border:1px solid rgba(64,51,58,0.1);
+    backdrop-filter:blur(14px) saturate(140%); -webkit-backdrop-filter:blur(14px) saturate(140%);
+    box-shadow:0 8px 20px -12px rgba(120,90,95,0.4);
+    font-size:12px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--gold-ink); font-weight:700;
+  }
+  .hero-badge-dot{
+    width:7px; height:7px; border-radius:50%; background:#2fae5f; flex-shrink:0;
+    box-shadow:0 0 0 0 rgba(47,174,95,0.6);
+    animation:badge-pulse 2.4s ease-out infinite;
+  }
+  @keyframes badge-pulse{
+    0%{box-shadow:0 0 0 0 rgba(47,174,95,0.55);}
+    70%{box-shadow:0 0 0 7px rgba(47,174,95,0);}
+    100%{box-shadow:0 0 0 0 rgba(47,174,95,0);}
+  }
+
   .hero h1{
     font-size:clamp(2.4rem, 5.6vw, 4.1rem);
-    line-height:1.06; font-weight:600; letter-spacing:-0.01em;
-    margin:18px 0 22px;
+    line-height:1.06; font-weight:600; letter-spacing:-0.015em;
+    margin:22px 0 20px;
   }
-  .hero h1 em{font-style:italic; color:var(--gold-ink);}
-  .hero p.sub{font-size:17.5px; line-height:1.65; color:var(--ink-60); max-width:480px; margin-bottom:34px;}
+  .hero h1 em{
+    font-style:italic; color:var(--gold-ink);
+    position:relative; display:inline-block; isolation:isolate;
+  }
+  .hero h1 em::after{
+    content:''; position:absolute; left:0; right:0; bottom:0.08em; height:0.28em;
+    background:linear-gradient(90deg, rgba(201,168,118,0.42), rgba(201,168,118,0.1));
+    border-radius:3px; z-index:-1;
+  }
+
+  .hero p.sub{font-size:17.5px; line-height:1.65; color:var(--ink-60); max-width:490px; margin:0 0 26px;}
+
+  .hero-points{
+    list-style:none; padding:0; margin:0 0 32px;
+    display:flex; flex-wrap:wrap; gap:10px 22px;
+  }
+  .hero-points li{
+    display:flex; align-items:center; gap:8px;
+    font-size:13.5px; font-weight:600; color:var(--off-white);
+  }
+  .hero-point-ic{
+    width:19px; height:19px; border-radius:50%; flex-shrink:0;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; color:#4a7a5f;
+    background:rgba(143,201,184,0.35); border:1px solid rgba(143,201,184,0.6);
+  }
+
   .hero-ctas{display:flex; flex-wrap:wrap; gap:14px;}
   .hero-wa-note{
-    display:flex; align-items:center; margin:20px 0 0; font-size:13.5px; font-weight:600;
+    display:flex; align-items:center; margin:24px 0 0; font-size:13.5px; font-weight:600;
     color:#2fae5f;
+  }
+
+  @media (max-width:600px){
+    .hero-badge{font-size:10.5px; letter-spacing:0.12em; padding:7px 13px 7px 10px;}
+    .hero p.sub{font-size:16px;}
+    .hero-points{gap:9px 16px; margin-bottom:26px;}
+    .hero-points li{font-size:12.5px;}
+    .hero-ctas .btn{flex:1 1 100%;}
   }
 
   .hero-visual{position:relative; height:520px; display:flex; align-items:center; justify-content:center; overflow:visible; max-width:100%;}
