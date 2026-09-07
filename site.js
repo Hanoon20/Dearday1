@@ -155,13 +155,14 @@
         'style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center;" ' +
         'onerror="this.style.display=\'none\';">';
     } else if(item.url){
-      // Live, fully interactive embed of the real site — visitors can click
-      // links and scroll around inside it directly on the card. Only the
-      // small badge in the corner captures clicks on its own; everywhere
-      // else on the preview goes straight through to the embedded site.
+      // Live, fully interactive embed — but the iframe is NOT created here.
+      // It is injected only while the card is near the viewport (see the
+      // iframe manager further below) and removed again once it scrolls
+      // well out of view. That keeps only 2-3 real sites alive at a time
+      // instead of every site on the page running at once, which is what
+      // made scrolling heavy.
       overlayHtml =
-        '<iframe src="' + item.url + '" title="' + item.title + '" loading="lazy" ' +
-        'style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>' +
+        '<div class="p-frame-slot" data-src="' + item.url + '" data-frame-title="' + String(item.title).replace(/"/g, "&quot;") + '"></div>' +
         '<a href="' + item.url + '" target="_blank" rel="noopener noreferrer" class="p-preview-badge">Open Full Site ↗</a>';
     }
 
@@ -369,6 +370,70 @@
       });
     });
   }
+
+  /* =====================================================================
+     LIVE PREVIEW MANAGER (performance)
+     Every portfolio card embeds a real, complete website. Running all of
+     them at once is what made the page heavy: each one loads its own
+     scripts, fonts and images, and keeps its animations/timers running
+     forever afterwards.
+
+     So instead of leaving them all alive, we:
+       - insert the <iframe> only when a card is near the viewport
+       - remove it again once the card scrolls well out of view
+     Only about 2-3 sites are ever live at the same time, no matter how
+     many designs you add. The previews stay fully interactive.
+     ===================================================================== */
+  (function(){
+    var slots = document.querySelectorAll(".p-frame-slot");
+    if(!slots.length) return;
+
+    function mount(slot){
+      if(slot.querySelector("iframe")) return; // already live
+      var frame = document.createElement("iframe");
+      frame.src = slot.getAttribute("data-src");
+      frame.title = slot.getAttribute("data-frame-title") || "Invitation preview";
+      frame.loading = "lazy";
+      frame.setAttribute("scrolling", "yes");
+      frame.style.cssText = "position:absolute; inset:0; width:100%; height:100%; border:0; opacity:0; transition:opacity .45s ease;";
+      frame.addEventListener("load", function(){ frame.style.opacity = "1"; });
+      slot.appendChild(frame);
+    }
+
+    function unmount(slot){
+      var frame = slot.querySelector("iframe");
+      if(!frame) return;
+      // Blanking the src first stops any in-flight requests, audio and
+      // timers immediately, rather than waiting on garbage collection.
+      frame.src = "about:blank";
+      frame.remove();
+    }
+
+    // Load a little before the card is visible so it feels instant,
+    // and keep it alive slightly past the edges to avoid thrashing
+    // when someone scrolls back and forth over the same card.
+    var loader = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting) mount(entry.target);
+      });
+    }, {rootMargin: "300px 0px"});
+
+    var unloader = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) unmount(entry.target);
+      });
+    }, {rootMargin: "900px 0px"});
+
+    slots.forEach(function(slot){
+      loader.observe(slot);
+      unloader.observe(slot);
+    });
+
+    // Free everything when the tab is hidden; remount on return.
+    document.addEventListener("visibilitychange", function(){
+      if(document.hidden) slots.forEach(unmount);
+    });
+  })();
 
   /* =====================================================================
      ORDER POPUP
