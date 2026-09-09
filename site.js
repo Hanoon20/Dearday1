@@ -116,9 +116,9 @@
   var portfolioItems = [
     {cat:"wedding", tag:"Wedding", title:"Royal Day", desc:"A romantic countdown invitation with gallery", url:"https://royal.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Aqeel & Hana", desc:"Traditional details woven into a modern layout.", url:"https://aqeel-hana.dearday.lk/", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Marlin & Sahnas", desc:"Timeless charm in a soft, modern setting.", url:"https://dark-cream.dearday.lk//", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Olive-promise", desc:"Traditional details woven into a modern layout.", url:"https://olive-promise.dearday.lk/", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Eventa-galaxy", desc:"Traditional details woven into a modern layout.", url:"https://evetna-galaxy.dearday.lk/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Marlin & Sahnas", desc:"Timeless charm in a soft, modern setting.", url:"https://dark-cream.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Olive-promise", desc:"Traditional details woven into a modern layout.", url:"https://olive-promise.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Eventa-galaxy", desc:"Traditional details woven into a modern layout.", url:"https://eterna-galaxy.netlify.app/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Sanguine", desc:"Hand-folded burgundy, unfolded on screen.", url:"https://sanguine.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Destination", desc:"boarding for Love", url:"https://destination.dearday.lk/", image:""},
     // {cat:"birthday", tag:"Birthday", title:"Turning Twenty-Five", desc:"A playful, colour-forward birthday experience.", url:"", image:""},
