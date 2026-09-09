@@ -116,7 +116,7 @@
   var portfolioItems = [
     {cat:"wedding", tag:"Wedding", title:"Royal Day", desc:"A romantic countdown invitation with gallery", url:"https://royal.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Plum Ink", desc:"two threads becoming one.", url:"https://plum-ink.dearday.lk/", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Marlin & Sahnas", desc:"Timeless charm in a soft, modern setting.", url:"https://dark-cream.netlify.app/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Dark-Cream", desc:"Timeless charm in a soft, modern setting.", url:"https://https://dark-cream.dearday.lk//", image:""},
     {cat:"wedding", tag:"Wedding", title:"Olive-promise", desc:"Traditional details woven into a modern layout.", url:"https://olive-promise.netlify.app/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Eventa-galaxy", desc:"Traditional details woven into a modern layout.", url:"https://eterna-galaxy.netlify.app/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Sanguine", desc:"Hand-folded burgundy, unfolded on screen.", url:"https://sanguine.dearday.lk/", image:""},
