@@ -118,7 +118,7 @@
     {cat:"wedding", tag:"Wedding", title:"Plum Ink", desc:"two threads becoming one.", url:"https://plum-ink.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Dark Cream", desc:"Timeless charm in a soft, modern setting.", url:"https://dark-cream.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Olive-promise", desc:"A quiet, cinematic invitation to our forever.", url:"https://olive-promise.dearday.lk/", image:""},
-    {cat:"wedding", tag:"Wedding", title:"Eventa-galaxy", desc:"Traditional details woven into a modern layout.", url:"https://eterna-galaxy.dearday.lk/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Eventa-galaxy", desc:"Traditional details woven into a modern layout.", url:"https://eventa-galaxy.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Sanguine", desc:"Hand-folded burgundy, unfolded on screen.", url:"https://sanguine.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Destination", desc:"boarding for Love", url:"https://destination.dearday.lk/", image:""},
     // {cat:"birthday", tag:"Birthday", title:"Turning Twenty-Five", desc:"A playful, colour-forward birthday experience.", url:"", image:""},
