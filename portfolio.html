@@ -17,6 +17,46 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
+  /* ---------- Ornamental pattern background with 3D parallax depth ----------
+     Three stacked pattern layers move at different speeds and scales while
+     scrolling, which reads as real depth (far/mid/near) rather than a flat
+     tile. Movement is applied as translate3d on the compositor, so it stays
+     smooth and never triggers layout work. */
+  .bg-parallax{
+    position:fixed; inset:0; z-index:-2; pointer-events:none; overflow:hidden;
+  }
+  /* The shared stylesheet gives <body> an opaque background, which would
+     cover the fixed parallax layers. Let it show through on this page and
+     keep the base colour on <html> instead. */
+  html{background:var(--charcoal);}
+  body{background:transparent;}
+  .bg-parallax span{
+    position:absolute; top:-25%; left:-25%; width:150%; height:150%;
+    background-image:url('pattern.jpg');
+    background-repeat:repeat;
+    will-change:transform;
+    transform:translate3d(0,0,0);
+  }
+  /* Farthest: biggest tile, drifts slowest — feels distant. */
+  .bg-parallax .layer-far{background-size:560px auto; opacity:0.5;}
+  /* Middle: rotated so the motif doesn't visibly line up with the far layer. */
+  .bg-parallax .layer-mid{background-size:380px auto; opacity:0.34; transform:rotate(180deg);}
+  /* Nearest: smallest tile, moves most — foreground shimmer. */
+  .bg-parallax .layer-near{background-size:260px auto; opacity:0.18;}
+
+  /* Soft wash so the pattern never competes with the cards for attention. */
+  .bg-parallax::after{
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(900px circle at 12% 0%, rgba(253,222,211,0.5), transparent 45%),
+      radial-gradient(800px circle at 88% 10%, rgba(210,238,222,0.38), transparent 45%),
+      linear-gradient(180deg, rgba(251,241,236,0.62) 0%, rgba(251,241,236,0.82) 55%, rgba(251,241,236,0.68) 100%);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bg-parallax span{transform:none !important;}
+  }
+
   .portfolio-page-header{padding:150px 0 40px; text-align:center;}
   .portfolio-page-header .eyebrow{display:block; margin-bottom:14px;}
   .portfolio-page-header h1{font-size:clamp(2.1rem,4.4vw,3rem); font-weight:600; margin:0 0 14px; letter-spacing:-0.01em;}
@@ -27,6 +67,11 @@
 <body>
 
 <div class="loader" id="loader"><span class="mark">Dearday<span style="color:var(--cyan)">.</span>lk</span></div>
+<div class="bg-parallax" aria-hidden="true">
+  <span class="layer-far"></span>
+  <span class="layer-mid"></span>
+  <span class="layer-near"></span>
+</div>
 <div class="bg-noise"></div>
 
 <!-- ================= NAVBAR ================= -->
@@ -150,5 +195,40 @@
 </a>
 
 <script src="site.js"></script>
+<script>
+/* 3D parallax background — each layer drifts at its own speed while scrolling,
+   producing depth. Updates are batched into requestAnimationFrame and written
+   as translate3d so the work stays on the compositor (no layout/paint), which
+   keeps scrolling smooth even with the live invitation previews running. */
+(function(){
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce) return;
+
+  var far  = document.querySelector(".bg-parallax .layer-far");
+  var mid  = document.querySelector(".bg-parallax .layer-mid");
+  var near = document.querySelector(".bg-parallax .layer-near");
+  if(!far || !mid || !near) return;
+
+  var ticking = false;
+
+  function update(){
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    // Different multipliers = different apparent distance from the viewer.
+    far.style.transform  = "translate3d(0," + (y * 0.06).toFixed(2) + "px,0)";
+    mid.style.transform  = "translate3d(0," + (y * 0.14).toFixed(2) + "px,0) rotate(180deg)";
+    near.style.transform = "translate3d(0," + (y * 0.26).toFixed(2) + "px,0)";
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", function(){
+    if(!ticking){
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, {passive:true});
+
+  update();
+})();
+</script>
 </body>
 </html>
