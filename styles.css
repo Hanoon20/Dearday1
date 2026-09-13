@@ -481,19 +481,28 @@
   }
   .pkg-card:hover{transform:translateY(-6px);}
   .pkg-card.featured{border-color:rgba(201,168,118,0.5); box-shadow:0 30px 60px -30px rgba(201,168,118,0.35);}
+  /* Signature is the package we want most customers to pick, so it gets a
+     touch more presence on desktop - understated, not a scale/gradient overload. */
+  @media (min-width:900px){
+    .pkg-card.featured{transform:scale(1.035); z-index:1;}
+    .pkg-card.featured:hover{transform:scale(1.035) translateY(-6px);}
+  }
   .pkg-badge{
     position:absolute; top:-13px; right:32px; background:linear-gradient(135deg,var(--gold-soft),var(--gold));
     color:var(--off-white); font-size:11px; font-weight:700; padding:6px 14px; border-radius:999px; letter-spacing:0.04em;
   }
   .pkg-name{font-family:'Playfair Display',serif; font-style:italic; font-size:26px; margin:0 0 6px;}
-  .pkg-price{display:flex; align-items:baseline; gap:10px; margin:0 0 12px;}
+  .pkg-price{display:flex; align-items:baseline; gap:10px; row-gap:6px; flex-wrap:wrap; margin:0 0 12px;}
   .pkg-price .old-price{font-size:15px; font-weight:600; color:var(--ink-40); text-decoration:line-through; text-decoration-color:rgba(64,51,58,0.55);}
   .pkg-price .new-price{font-size:22px; font-weight:800; color:var(--gold-ink); letter-spacing:-0.01em;}
   .pkg-price .save-tag{font-size:10.5px; font-weight:700; letter-spacing:0.04em; color:var(--off-white); background:var(--cyan); padding:3px 9px; border-radius:999px;}
-  .pkg-desc{font-size:14px; color:var(--ink-60); margin:0 0 26px; line-height:1.55; min-height:44px;}
-  .pkg-list{list-style:none; padding:0; margin:0 0 32px; display:flex; flex-direction:column; gap:13px; flex:1;}
-  .pkg-list li{font-size:14px; display:flex; align-items:flex-start; gap:10px; color:var(--off-white);}
+  .pkg-desc{font-size:14px; color:var(--ink-60); margin:0 0 26px; line-height:1.55; min-height:22px;}
+  .pkg-list{list-style:none; padding:0; margin:0 0 32px; display:flex; flex-direction:column; gap:12px; flex:1;}
+  .pkg-list li{font-size:13.5px; display:flex; align-items:flex-start; gap:10px; color:var(--off-white);}
   .pkg-list li .check{color:var(--cyan); flex-shrink:0; margin-top:1px;}
+  @media (max-width:480px){
+    .pkg-card{padding:32px 24px;}
+  }
 
   /* ---------- Portfolio ---------- */
   .filter-row{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:44px;}
