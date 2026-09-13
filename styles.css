@@ -259,8 +259,40 @@
   .reveal-delay-3{transition-delay:0.24s;}
   .reveal-delay-4{transition-delay:0.32s;}
 
+  /* ---------- Hero 3D entrances (each element flies/flips/pops in on its own axis) ----------
+     The page loader covers the screen until ~0.5s and takes another 0.7s to
+     fade out, so these are delayed to play out as it clears (~0.5s-2s)
+     instead of finishing underneath it. */
+  .reveal-3d-drop{transform:perspective(700px) rotateX(-75deg) translateY(-16px); transform-origin:50% 0%; opacity:0;}
+  .reveal-3d-drop.is-visible{transform:perspective(700px) rotateX(0deg) translateY(0); opacity:1;}
+  .hero .eyebrow.reveal-3d-drop{transition-delay:0.5s;}
+
+  .reveal-3d-depth{transform:perspective(1100px) translateZ(-280px) rotateX(10deg) scale(0.88); opacity:0;}
+  .reveal-3d-depth.is-visible{transform:perspective(1100px) translateZ(0) rotateX(0deg) scale(1); opacity:1;}
+  .hero h1.reveal-3d-depth{transition-delay:0.64s;}
+
+  .reveal-3d-left{transform:perspective(800px) rotateY(-38deg) translateX(-36px); transform-origin:0% 50%; opacity:0;}
+  .reveal-3d-left.is-visible{transform:perspective(800px) rotateY(0deg) translateX(0); opacity:1;}
+  .hero .sub.reveal-3d-left{transition-delay:0.78s;}
+
+  /* .btn already owns its own (short, snappy) transition for hover/press, which
+     must keep working after this fires - so the pop-in uses a self-contained
+     animation instead of touching the transition property. */
+  .reveal-3d-pop{transform:perspective(600px) rotateX(35deg) scale(0.55); opacity:0;}
+  .reveal-3d-pop.is-visible{animation:heroPopIn 0.8s cubic-bezier(.34,1.56,.64,1) both;}
+  /* transition-delay from .reveal-delay-* has no effect on the animation
+     above, so re-declare the same delays as animation-delay here. */
+  .reveal-3d-pop.reveal-delay-3.is-visible{animation-delay:0.92s;}
+  .reveal-3d-pop.reveal-delay-4.is-visible{animation-delay:1.04s;}
+  @keyframes heroPopIn{
+    0%{transform:perspective(600px) rotateX(35deg) scale(0.55); opacity:0;}
+    100%{transform:perspective(600px) rotateX(0deg) scale(1); opacity:1;}
+  }
+
   /* ---------- Hero ---------- */
   .hero{min-height:100svh; display:flex; align-items:center; padding-top:130px; padding-bottom:70px; overflow:hidden;}
+  .hero .glow-orb{opacity:0; animation:heroOrbIn 1.6s ease-out forwards;}
+  @keyframes heroOrbIn{from{opacity:0; transform:scale(0.6);}to{opacity:1; transform:scale(1);}}
   .hero-grid{display:grid; grid-template-columns:1fr; gap:56px; align-items:center;}
   @media (min-width:1024px){.hero-grid{grid-template-columns:1.05fr 0.95fr; gap:40px;}}
 
@@ -298,19 +330,20 @@
     backface-visibility:hidden;
   }
   .phone-front{
-    animation:float-front 6.5s ease-in-out infinite;
+    animation:heroPhoneFrontIn 1s cubic-bezier(.2,.8,.2,1) both, float-front 6.5s ease-in-out infinite;
+    animation-delay:0.82s, 1.82s;
     z-index:5;
     box-shadow:0 45px 80px -25px rgba(140,100,95,0.4), inset 0 0 0 1px rgba(255,255,255,0.7);
   }
   .phone-back-left{
-    animation:float-back-left 7.2s ease-in-out infinite;
-    animation-delay:0.6s;
+    animation:heroPhoneBackLeftIn 1s cubic-bezier(.2,.8,.2,1) both, float-back-left 7.2s ease-in-out infinite;
+    animation-delay:0.66s, 1.66s;
     z-index:3; opacity:0.92;
     box-shadow:0 30px 60px -20px rgba(140,100,95,0.3);
   }
   .phone-back-right{
-    animation:float-back-right 7.6s ease-in-out infinite;
-    animation-delay:1.2s;
+    animation:heroPhoneBackRightIn 1s cubic-bezier(.2,.8,.2,1) both, float-back-right 7.6s ease-in-out infinite;
+    animation-delay:0.5s, 1.5s;
     z-index:2; opacity:0.88;
     box-shadow:0 30px 60px -20px rgba(140,100,95,0.28);
   }
@@ -325,6 +358,20 @@
   @keyframes float-back-right{
     0%,100%{transform:translate(-8%,-42%) rotate(10deg) scale(0.86) translateY(0);}
     50%{transform:translate(-8%,-42%) rotate(10deg) scale(0.86) translateY(10px);}
+  }
+  /* One-shot 3D entrances that hand off seamlessly into the float loops above
+     (each ends on exactly the float keyframe's resting transform). */
+  @keyframes heroPhoneFrontIn{
+    0%{transform:perspective(900px) translate(-50%,-50%) rotate(-1deg) translateY(-170px) rotateX(-50deg) scale(0.7); opacity:0;}
+    100%{transform:perspective(900px) translate(-50%,-50%) rotate(-1deg) translateY(0) rotateX(0deg) scale(1); opacity:1;}
+  }
+  @keyframes heroPhoneBackLeftIn{
+    0%{transform:perspective(900px) translate(-92%,-42%) rotate(-11deg) scale(0.5) translateY(0) rotateY(75deg); opacity:0;}
+    100%{transform:perspective(900px) translate(-92%,-42%) rotate(-11deg) scale(0.86) translateY(0) rotateY(0deg); opacity:1;}
+  }
+  @keyframes heroPhoneBackRightIn{
+    0%{transform:perspective(900px) translate(-8%,-42%) rotate(10deg) scale(0.5) translateY(0) rotateY(-75deg); opacity:0;}
+    100%{transform:perspective(900px) translate(-8%,-42%) rotate(10deg) scale(0.86) translateY(0) rotateY(0deg); opacity:1;}
   }
 
   .invite-notch{
@@ -373,10 +420,15 @@
   .float-chip{
     position:absolute; padding:10px 16px; border-radius:999px; font-size:12.5px; font-weight:600;
     display:flex; align-items:center; gap:8px; z-index:6; max-width:calc(50% - 8px);
-    animation:chip-float 5s ease-in-out infinite;
+    opacity:0;
+    animation:chip-in 0.7s cubic-bezier(.34,1.56,.64,1) both, chip-float 5s ease-in-out infinite;
   }
   .float-chip .dot{width:6px; height:6px; border-radius:50%; background:var(--cyan); flex-shrink:0;}
   @keyframes chip-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+  @keyframes chip-in{
+    0%{transform:perspective(700px) rotateX(55deg) scale(0.4) translateY(20px); opacity:0;}
+    100%{transform:perspective(700px) rotateX(0deg) scale(1) translateY(0); opacity:1;}
+  }
   @media (max-width:480px){
     .float-chip{font-size:10.5px; padding:7px 11px;}
     .float-chip[style*="left:-2%"]{left:0 !important;}
