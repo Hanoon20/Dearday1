@@ -251,9 +251,19 @@
   #mobile-menu.open{opacity:1; pointer-events:all;}
   #mobile-menu a{font-size:26px; font-family:'Playfair Display',serif; color:var(--off-white);}
 
-  /* ---------- Reveal ---------- */
-  .reveal{opacity:0; transform:translateY(28px); transition:opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);}
-  .reveal.is-visible{opacity:1; transform:translateY(0);}
+  /* ---------- Reveal ----------
+     Every section on the site uses this on scroll-in (via the
+     IntersectionObserver in site.js), so giving it a 3D tilt here is what
+     puts a 3D intro on every section rather than just the hero. Kept subtle
+     (12deg) so it reads as premium rather than gimmicky, and elements that
+     want a bigger, bespoke 3D entrance (the hero copy/CTAs) define their own
+     .reveal-3d-* transform that overrides this one. */
+  .reveal{
+    opacity:0; transform-origin:50% 100%;
+    transform:perspective(1000px) rotateX(12deg) translateY(30px);
+    transition:opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.is-visible{transform:perspective(1000px) rotateX(0deg) translateY(0); opacity:1;}
   .reveal-delay-1{transition-delay:0.08s;}
   .reveal-delay-2{transition-delay:0.16s;}
   .reveal-delay-3{transition-delay:0.24s;}
