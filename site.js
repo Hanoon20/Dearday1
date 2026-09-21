@@ -338,6 +338,7 @@
     var faqs = [
       ["What is a digital invitation?", "A digital invitation is an interactive, web-based invitation you can share as a link — combining design, photos, and details like a mini website made just for your event."],
       ["How does the invitation work?", "We design your invitation and deliver it as a shareable link. You send that link to your guests through WhatsApp, social media or any messaging app."],
+      ["Do you create Nikah and Homecoming invitations?", "Yes. We design digital invitations for Nikah, Homecoming, reception and engagement events, and we can cover multiple events in a single invitation so your guests have every detail in one link."],
       ["Can I customize the design?", "Yes. Every invitation is customized to match your event's style, colours and preferences — from the Essential to the Royal package."],
       ["How long does it take to create?", "Turnaround depends on the package and details provided, but most invitations are ready within a few days of confirming your requirements on WhatsApp."],
       ["Can I add photos?", "Yes, our Signature and Royal packages include a photo gallery so you can share your favourite moments with your guests."],
