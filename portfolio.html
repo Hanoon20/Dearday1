@@ -6,6 +6,7 @@
 <title>Portfolio | Dearday.lk — Premium Digital Invitations Sri Lanka</title>
 <meta name="description" content="Browse Dearday.lk's full portfolio of digital wedding, birthday, engagement, party, proposal and custom invitation designs.">
 <link rel="canonical" href="https://dearday.lk/portfolio.html">
+<meta name="robots" content="index, follow">
 
 <!-- Open Graph (WhatsApp, Facebook, Messenger, Telegram, LinkedIn) -->
 <meta property="og:type" content="website">
@@ -53,8 +54,12 @@
   /* Keep all real page content above the background layers. */
   .portfolio-page-header, section, footer{position:relative; z-index:1;}
   .bg-parallax span{
+    /* pattern.jpg no longer exists in the repo, so this previously fired
+       three failed image requests per page load for a texture that was
+       never actually rendering (background-image simply fails silently).
+       Left structurally in place so the tint gradient below and the
+       parallax transform JS keep working exactly as before. */
     position:absolute; top:-25%; left:-25%; width:150%; height:150%;
-    background-image:url('pattern.jpg');
     background-repeat:repeat;
     will-change:transform;
     transform:translate3d(0,0,0);
@@ -86,6 +91,18 @@
   .portfolio-page-header p{font-size:16px; color:var(--ink-60); max-width:560px; margin:0 auto;}
   @media (max-width:768px){.portfolio-page-header{padding:120px 0 30px;}}
 </style>
+
+<!-- Structured data (Schema.org) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://dearday.lk/"},
+    {"@type": "ListItem", "position": 2, "name": "Portfolio", "item": "https://dearday.lk/portfolio.html"}
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -130,6 +147,7 @@
   <a href="#" class="btn btn-gold wa-cta" style="margin-top:12px; font-size:15px;">Create Your Invitation</a>
 </div>
 
+<main>
 <!-- ================= PAGE HEADER ================= -->
 <header class="portfolio-page-header">
   <div class="wrap">
@@ -170,6 +188,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- ================= FOOTER ================= -->
 <footer>
