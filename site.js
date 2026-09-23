@@ -114,6 +114,7 @@
      as many as you like.
      ===================================================================== */
   var portfolioItems = [
+    {cat:"wedding", tag:"Wedding", title:"Floral", desc:"Florals in full bloom.", url:"https://floral.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Royal Day", desc:"A romantic countdown invitation with gallery", url:"https://royal.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Plum Ink", desc:"two threads becoming one.", url:"https://plum-ink.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Dark Cream", desc:"Timeless charm in a soft, modern setting.", url:"https://dark-cream.dearday.lk/", image:""},
