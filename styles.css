@@ -556,6 +556,13 @@
   .p-item.preview-live:not(.preview-ready) .mock-face{animation:preview-pulse 1.6s ease-in-out infinite;}
   @keyframes preview-pulse{0%,100%{opacity:1;}50%{opacity:0.55;}}
   .p-preview iframe{ pointer-events:auto; background:var(--charcoal-2); }
+  /* Each preview is a real, scrollable website. With the pointer over one of
+     them the wheel/touch scroll goes into the embedded site first and only
+     chains back to the page once that site hits its own end - which reads as
+     the page freezing on that card. While a scroll is actually in progress
+     the previews ignore the pointer so the page scrolls straight past them;
+     interactivity comes back as soon as scrolling stops. */
+  body.is-scrolling .p-preview iframe{ pointer-events:none; }
   .p-preview-badge{
     position:absolute; bottom:12px; right:12px; z-index:5;
     background:rgba(255,255,255,0.9); color:var(--off-white); font-size:11px; font-weight:700;
