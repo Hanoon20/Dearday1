@@ -114,7 +114,7 @@
      as many as you like.
      ===================================================================== */
   var portfolioItems = [
-    {cat:"wedding", tag:"Wedding", title:"Glass Vow", desc:"Vows, clear as glass.", url:"https://glass-vow.dearday.lk/", image:""},
+    {cat:"wedding", tag:"Wedding", title:"Glass Vow", desc:"A promise as clear as the love behind it.", url:"https://glass-vow.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Floral", desc:"Florals in full bloom.", url:"https://floral.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Royal Day", desc:"A romantic countdown invitation with gallery", url:"https://royal.dearday.lk/", image:""},
     {cat:"wedding", tag:"Wedding", title:"Plum Ink", desc:"two threads becoming one.", url:"https://plum-ink.dearday.lk/", image:""},
