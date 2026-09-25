@@ -546,6 +546,15 @@
   /* Once revealed, stop skipping render work so the fade-in animation and
      any card hover effects behave normally. */
   .p-item.is-visible{content-visibility:visible;}
+  /* Set by the preview manager as soon as a card's iframe is mounted, which
+     happens well before the card is on screen. Without this, skipping the
+     render work also stalls the embedded site, so the card arrived blank. */
+  .p-item.preview-live{content-visibility:visible;}
+  /* Between mounting the iframe and its load event the card would otherwise
+     just sit there looking empty - pulse the placeholder so it reads as
+     loading. Stops the moment the real site paints. */
+  .p-item.preview-live:not(.preview-ready) .mock-face{animation:preview-pulse 1.6s ease-in-out infinite;}
+  @keyframes preview-pulse{0%,100%{opacity:1;}50%{opacity:0.55;}}
   .p-preview iframe{ pointer-events:auto; background:var(--charcoal-2); }
   .p-preview-badge{
     position:absolute; bottom:12px; right:12px; z-index:5;
