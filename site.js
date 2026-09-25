@@ -392,41 +392,66 @@
     var slots = document.querySelectorAll(".p-frame-slot");
     if(!slots.length) return;
 
+    function cardOf(slot){
+      return slot.closest ? slot.closest(".p-item") : null;
+    }
+
     function mount(slot){
       if(slot.querySelector("iframe")) return; // already live
+      var card = cardOf(slot);
+      // Stop skipping this card's render work now, not when it reaches the
+      // viewport. content-visibility:auto leaves the card blank AND holds up
+      // the iframe inside it, which is what made cards look empty on scroll.
+      if(card) card.classList.add("preview-live");
+
       var frame = document.createElement("iframe");
       frame.src = slot.getAttribute("data-src");
       frame.title = slot.getAttribute("data-frame-title") || "Invitation preview";
-      frame.loading = "lazy";
+      // Deliberately NOT loading="lazy": mounting is already gated by the
+      // observer below, and the attribute would hand the decision back to the
+      // browser's own much tighter threshold, throwing away the head start.
       frame.setAttribute("scrolling", "yes");
       frame.style.cssText = "position:absolute; inset:0; width:100%; height:100%; border:0; opacity:0; transition:opacity .45s ease;";
-      frame.addEventListener("load", function(){ frame.style.opacity = "1"; });
+      frame.addEventListener("load", function(){
+        frame.style.opacity = "1";
+        if(card) card.classList.add("preview-ready");
+      });
       slot.appendChild(frame);
     }
 
     function unmount(slot){
       var frame = slot.querySelector("iframe");
       if(!frame) return;
+      var card = cardOf(slot);
+      if(card){
+        card.classList.remove("preview-live");
+        card.classList.remove("preview-ready");
+      }
       // Blanking the src first stops any in-flight requests, audio and
       // timers immediately, rather than waiting on garbage collection.
       frame.src = "about:blank";
       frame.remove();
     }
 
-    // Load a little before the card is visible so it feels instant,
-    // and keep it alive slightly past the edges to avoid thrashing
-    // when someone scrolls back and forth over the same card.
+    // Each preview is a complete external website - HTML, CSS, fonts, images,
+    // scripts - so it needs real runway to be painted by the time the card is
+    // actually looked at. 300px was under half a second of scrolling, which is
+    // why previews were still blank on arrival; start roughly a screen and a
+    // half early instead.
     var loader = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting) mount(entry.target);
       });
-    }, {rootMargin: "300px 0px"});
+    }, {rootMargin: "1400px 0px"});
 
+    // Unload well outside the load margin. Previously a card was torn down
+    // 900px out and had to download the whole site again the moment you
+    // scrolled back, so revisiting a design always meant waiting twice.
     var unloader = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(!entry.isIntersecting) unmount(entry.target);
       });
-    }, {rootMargin: "900px 0px"});
+    }, {rootMargin: "2600px 0px"});
 
     slots.forEach(function(slot){
       loader.observe(slot);
