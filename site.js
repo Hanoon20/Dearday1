@@ -396,7 +396,50 @@
       return slot.closest ? slot.closest(".p-item") : null;
     }
 
-    function mount(slot){
+    /* While the page is being scrolled, previews stop taking pointer events
+       (see the matching CSS rule). Without this the scroll is swallowed by
+       whichever embedded site is under the cursor until that site reaches its
+       own scroll end, which feels like the page sticking on that card. */
+    var scrollSettle;
+    window.addEventListener("scroll", function(){
+      document.body.classList.add("is-scrolling");
+      clearTimeout(scrollSettle);
+      scrollSettle = setTimeout(function(){
+        document.body.classList.remove("is-scrolling");
+      }, 160);
+    }, {passive:true});
+
+    /* Mount one preview at a time, in idle gaps. Inserting several complete
+       websites in the same frame stalls the main thread - and because these
+       previews are subdomains of the parent site, the browser runs them in
+       the same process, so their startup work competes directly with
+       scrolling. */
+    var mountQueue = [];
+    var mounting = false;
+    var idle = window.requestIdleCallback || function(fn){ return setTimeout(fn, 1); };
+
+    function pumpQueue(){
+      if(mounting || !mountQueue.length) return;
+      mounting = true;
+      idle(function(){
+        var next = mountQueue.shift();
+        if(next) mountNow(next);
+        mounting = false;
+        if(mountQueue.length) pumpQueue();
+        // Short timeout on purpose: this page animates continuously, so true
+        // idle gaps are scarce and a long timeout would starve the queue and
+        // undo the head start the preload margin exists to give.
+      }, {timeout: 100});
+    }
+
+    function queueMount(slot){
+      if(slot.querySelector("iframe")) return;      // already live
+      if(mountQueue.indexOf(slot) !== -1) return;   // already waiting
+      mountQueue.push(slot);
+      pumpQueue();
+    }
+
+    function mountNow(slot){
       if(slot.querySelector("iframe")) return; // already live
       var card = cardOf(slot);
       // Stop skipping this card's render work now, not when it reaches the
@@ -420,6 +463,8 @@
     }
 
     function unmount(slot){
+      var queued = mountQueue.indexOf(slot);
+      if(queued !== -1) mountQueue.splice(queued, 1); // drop it before it loads
       var frame = slot.querySelector("iframe");
       if(!frame) return;
       var card = cardOf(slot);
@@ -440,7 +485,7 @@
     // half early instead.
     var loader = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
-        if(entry.isIntersecting) mount(entry.target);
+        if(entry.isIntersecting) queueMount(entry.target);
       });
     }, {rootMargin: "1400px 0px"});
 
